@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-TW"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>大湖幸福島｜大湖國小交通安全課程地圖</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;800&display=swap">
+<style>
+:root{--bg:#FFE9C7;--ink:#4A3426;--sub:#8B6B55;--card:#FFFBF2;--line:#F0DDBF;--accent:#FF8A4C;--chip:#FFF3DD;box-sizing:border-box}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2B2233;--ink:#FBEBD6;--sub:#C8AE98;--card:#3A2F44;--line:#4F4160;--accent:#FFA06A;--chip:#43364F}}
+:root[data-theme="dark"]{--bg:#2B2233;--ink:#FBEBD6;--sub:#C8AE98;--card:#3A2F44;--line:#4F4160;--accent:#FFA06A;--chip:#43364F}
+*{box-sizing:border-box}html,body{height:100%;margin:0;overflow:hidden;background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif}
+canvas{position:fixed;inset:0;width:100%;height:100%;touch-action:none;display:block}
+header{position:fixed;left:0;top:0;padding:calc(14px + env(safe-area-inset-top,0px)) 18px 0;pointer-events:none}
+h1{margin:0;font-size:clamp(24px,5vw,34px);font-weight:800;letter-spacing:.06em}
+h1 span{color:var(--accent)}header p{margin:2px 0 0;font-size:13px;color:var(--sub)}
+.hint{display:inline-block;margin-top:8px;background:var(--card);border:2px solid var(--line);border-radius:99px;padding:4px 12px;font-size:12px;color:var(--sub)}
+.lab{z-index:1;position:fixed;left:0;top:0;transform:translate(-50%,-100%);border:0;background:var(--card);color:var(--ink);font:800 13px 'Noto Sans TC',sans-serif;padding:5px 11px;border-radius:99px;box-shadow:0 3px 0 var(--line),0 6px 12px #0002;cursor:pointer;white-space:nowrap;will-change:transform}
+.lab.on{background:var(--accent);color:#fff;font-size:15px;padding:6px 14px}
+nav{display:none!important;position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;overflow-x:auto;padding:10px 14px calc(12px + env(safe-area-inset-bottom,0px));scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button,.reset{flex:none;border:2px solid var(--line);background:var(--card);color:var(--ink);font:800 13px 'Noto Sans TC',sans-serif;padding:8px 14px;border-radius:99px;box-shadow:0 3px 0 var(--line);cursor:pointer}
+nav button.on{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 3px 0 #C65F28}
+.reset{position:fixed;right:14px;top:calc(14px + env(safe-area-inset-top,0px));display:none}
+#panel,#cp,#lp{z-index:20;position:fixed;right:16px;top:16px;bottom:16px;width:min(410px,calc(100% - 32px));background:var(--card);border:3px solid var(--line);border-radius:26px;box-shadow:0 8px 0 var(--line),0 16px 40px #0003;padding:20px 20px 24px;overflow-y:auto;transform:translateX(120%);transition:transform .5s cubic-bezier(.2,.9,.3,1.2)}
+#panel.open,#cp.open,#lp.open{transform:none}
+#panel .x,#cp .x,#lp .x{position:absolute;right:12px;top:12px;width:34px;height:34px;border-radius:50%;border:0;background:var(--chip);color:var(--ink);font-size:18px;cursor:pointer}
+.stage{font-size:12px;font-weight:800;color:#fff;background:var(--accent);display:inline-block;padding:2px 10px;border-radius:99px}
+#panel h2{margin:8px 36px 4px 0;font-size:24px;line-height:1.25}.focus{font-size:13px;line-height:1.7;color:var(--sub);background:var(--chip);padding:10px 12px;border-radius:14px;margin:10px 0}
+h3{font-size:14px;margin:16px 0 6px;color:var(--accent)}
+.unit{border:2px solid var(--line);border-radius:16px;padding:10px 12px;margin-bottom:8px}
+.unit b{font-size:14px;line-height:1.4}.tag{display:inline-block;font-size:11px;background:var(--chip);color:var(--sub);padding:1px 8px;border-radius:99px;margin-right:6px;font-weight:800}
+.btns{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.btns a,.btns span{font-size:12px;font-weight:800;text-decoration:none;padding:5px 11px;border-radius:99px;background:var(--accent);color:#fff}
+.btns a:nth-child(2){background:#4FA3D9}.btns a:nth-child(3){background:#6BB35A}
+.btns span{background:var(--line);color:var(--sub);font-weight:500}
+.vid{display:block;text-decoration:none;color:var(--ink);font-size:13px;line-height:1.5;padding:9px 12px;border-radius:14px;background:var(--chip);margin-bottom:6px}
+.vid:before{content:"▶ ";color:var(--accent)}
+.tools{z-index:3;position:fixed;left:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:row;flex-wrap:wrap;gap:8px;align-items:center}
+.clockbox{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:8px 12px;box-shadow:0 3px 0 var(--line);font-weight:800;font-size:13px;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.clockbox input{width:110px;accent-color:var(--accent)}
+.tb{border:2px solid var(--line);background:var(--card);color:var(--ink);font:800 12px 'Noto Sans TC',sans-serif;padding:7px 12px;border-radius:99px;box-shadow:0 3px 0 var(--line);cursor:pointer}
+.tb.on{background:var(--accent);border-color:var(--accent);color:#fff}
+#tour{position:fixed;left:18px;bottom:calc(64px + env(safe-area-inset-bottom,0px));width:min(340px,calc(100% - 36px));background:var(--card);border:3px solid var(--line);border-radius:22px;box-shadow:0 6px 0 var(--line),0 12px 30px #0003;padding:14px 16px;display:none;z-index:5}
+#tour.show{display:block}#tour b{font-size:16px}#tour p{margin:6px 0 10px;font-size:13px;line-height:1.7;color:var(--sub)}
+#tour .row{display:flex;gap:8px;align-items:center}#tour small{margin-right:auto;color:var(--sub);font-size:11px}
+#tour button{border:0;border-radius:99px;padding:7px 14px;font:800 12px 'Noto Sans TC',sans-serif;cursor:pointer;background:var(--chip);color:var(--ink)}#tour #nx{background:var(--accent);color:#fff}
+@media (max-width:720px){.hint{display:none}header p{font-size:12px}.tools{left:10px;right:10px;gap:6px}.clockbox{padding:5px 12px;border-radius:99px;font-size:12px}.clockbox input{width:84px}.tb{padding:6px 10px;font-size:11px;white-space:nowrap}.lab{font-size:11px;padding:3px 8px}#tour{left:10px;right:10px;width:auto;padding:10px 14px}#tour p{margin:4px 0 8px;font-size:12px;line-height:1.55}#panel,#cp,#lp{left:10px;right:10px;width:auto;top:auto;bottom:calc(12px + env(safe-area-inset-bottom,0px));height:56vh;transform:translateY(130%)}#panel.open,#cp.open,#lp.open{transform:none}}
+
+#mas{position:fixed;left:18px;top:calc(92px + env(safe-area-inset-top,0px));display:flex;flex-direction:column;gap:8px;z-index:4;max-width:min(300px,calc(100% - 36px))}
+#mas .row{display:flex;gap:8px;align-items:flex-start}
+#mas .face{flex:none;width:46px;height:46px;border-radius:50%;background:var(--accent);color:#fff;font:800 15px 'Noto Sans TC',sans-serif;display:grid;place-items:center;border:3px solid var(--card);box-shadow:0 3px 0 #C65F28;cursor:pointer;animation:bo 2.4s ease-in-out infinite}
+#mas .bub{background:var(--card);border:2px solid var(--line);border-radius:6px 16px 16px 16px;padding:8px 12px;font-size:13px;line-height:1.55;box-shadow:0 3px 0 var(--line)}
+#mas .bub.pop{animation:pp .35s}
+#pk{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:12px;font-weight:800;color:var(--sub)}
+#pk .tb{padding:5px 10px}#pk .tb.on{color:#fff}
+@keyframes bo{50%{transform:translateY(-4px)}}@keyframes pp{from{transform:scale(.85);opacity:0}}
+#log{position:fixed;left:18px;bottom:calc(64px + env(safe-area-inset-bottom,0px));width:min(290px,calc(100% - 36px));max-height:36vh;overflow-y:auto;background:var(--card);border:3px solid var(--line);border-radius:20px;box-shadow:0 6px 0 var(--line);padding:10px 14px;font-size:12px;line-height:1.6;display:none;z-index:6}
+#log.show{display:block}#log b{font-size:14px}#log div{border-top:1px dashed var(--line);padding:4px 0;color:var(--sub)}
+@media (max-width:720px){#mas{left:10px;top:calc(64px + env(safe-area-inset-top,0px))}#mas .face{width:38px;height:38px;font-size:12px}#mas .bub{font-size:12px}#log{left:10px;right:10px;width:auto}}
+
+#cp .k{font:800 12px 'Noto Sans TC';letter-spacing:.14em;color:var(--accent)}#cp h2{margin:4px 36px 0 0;font-size:26px}
+#cp .tabs{display:flex;gap:6px;margin:14px 0 4px}#cp .tabs button{flex:1;border:0;border-radius:99px;padding:10px 0;font:800 14px 'Noto Sans TC';background:none;color:var(--ink);cursor:pointer}#cp .tabs .on{background:var(--accent);color:#fff}
+#cp label{display:block;font-size:12px;color:var(--sub);margin:14px 0 6px}
+#cp input{width:100%;border:2px solid var(--line);border-radius:14px;padding:10px 12px;font:500 14px 'Noto Sans TC';background:var(--card);color:var(--ink)}
+#cp .ch{display:flex;flex-wrap:wrap;gap:6px}#cp .ch button,#cp .two button,#cp .big{border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:8px 14px;font:800 13px 'Noto Sans TC';cursor:pointer;text-decoration:none;display:inline-block}
+#cp .ch .on{background:var(--accent);border-color:var(--accent);color:#fff}
+#cp .ch .sw{width:30px;height:30px;padding:0;border-radius:50%}#cp .ch .sw.on{outline:3px solid var(--accent);outline-offset:2px}
+#cp .two{display:flex;gap:8px}#cp .two button{flex:1;border-radius:14px}
+#cp .nt{font-size:12px;color:var(--sub);line-height:1.6}#cp .unit{cursor:pointer}#cp img{width:100%;border-radius:14px;margin:10px 0}
+#lp .k{font:800 12px 'Noto Sans TC';letter-spacing:.14em;color:var(--accent)}#lp h2{margin:4px 36px 0 0;font-size:26px}
+#lp .tabs{display:flex;gap:6px;margin:14px 0 4px}#lp .tabs button{flex:1;border:0;border-radius:99px;padding:10px 0;font:800 14px 'Noto Sans TC';background:none;color:var(--ink);cursor:pointer}#lp .tabs .on{background:var(--accent);color:#fff}
+#lp label{display:block;font-size:12px;color:var(--sub);margin:14px 0 6px}
+#lp input{width:100%;border:2px solid var(--line);border-radius:14px;padding:10px 12px;font:500 14px 'Noto Sans TC';background:var(--card);color:var(--ink)}
+#lp .ch{display:flex;flex-wrap:wrap;gap:6px}#lp .ch button,#lp .two button,#lp .big{border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:8px 14px;font:800 13px 'Noto Sans TC';cursor:pointer;text-decoration:none;display:inline-block}
+#lp .ch .on{background:var(--accent);border-color:var(--accent);color:#fff}
+#lp .ch .sw{width:30px;height:30px;padding:0;border-radius:50%}#lp .ch .sw.on{outline:3px solid var(--accent);outline-offset:2px}
+#lp .two{display:flex;gap:8px}#lp .two button{flex:1;border-radius:14px}
+#lp .nt{font-size:12px;color:var(--sub);line-height:1.6}#lp .unit{cursor:pointer}#lp img{width:100%;border-radius:14px;margin:10px 0}
+#lp .unit .nt{margin:4px 0 0;padding-left:2px}#lp .unit:hover{border-color:var(--accent)}
+.me{position:fixed;left:0;top:0;z-index:1;pointer-events:none;background:var(--card);border:2px solid var(--line);border-radius:99px;padding:3px 12px;font:800 13px 'Noto Sans TC',sans-serif;color:var(--ink);box-shadow:0 3px 0 var(--line);white-space:nowrap}
+.me b{color:var(--accent)}.me:after{content:"";position:absolute;left:50%;bottom:-11px;margin-left:-6px;border:6px solid transparent;border-top:10px solid var(--accent)}
+</style></head><body>
+<canvas id="c"></canvas>
+<header><h1>大湖<span>幸福島</span></h1><p>大湖國小・交通安全課程地圖</p></header>
+<button class="reset" id="reset">↺ 回到全島</button>
+<div class="tools"><div class="clockbox"><span id="clock">☀️ 10:00</span><input id="tod" type="range" min="0" max="24" step="0.25" value="10" aria-label="時間"></div><button id="cpb" class="tb">☺ 角色</button><button id="lsb" class="tb">☰ 清單</button><button id="lgb" class="tb">📒 日誌</button><button id="tourBtn" class="tb">？導覽</button></div>
+<div id="tour"><b id="tt"></b><p id="tp"></p><div class="row"><small id="tc"></small><button id="skip">略過</button><button id="nx">下一步 →</button></div></div>
+<div id="mas"><div class="row"><div class="face" id="mf" title="點我換個提示">•ᴗ•</div><div class="bub" id="mb"></div></div></div><div id="log"><b>📒 城市日誌</b><div id="ll"></div></div><aside id="lp"></aside><aside id="cp"></aside><aside id="panel"></aside><nav id="nav"></nav>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const D=[{"g":"【第一學習階段】一年級","t":"小綠歡喜心・平安上學去","f":"上學期： 認識上下學環境、標誌號誌、安全穿越路口 下學期： 認識校門與周圍愛心服務站，並學習求助","s":[["上學期 (3 單元)",[["生活領域","安全上學我注意-1","https://drive.google.com/file/d/1UxW-VpK24e6y_bgqusIkyHc4H_YK9Clv/view?usp=sharing","https://drive.google.com/drive/folders/1fH4XaOoIEMr3UmcPfkEgNj79CMvtc3QO?usp=drive_link","https://drive.google.com/file/d/1v_os2YA9TQ1hyykjW_10S6KuTF309XAg/view?usp=sharing"],["健體領域","愛心夥伴守護我","https://drive.google.com/file/d/1wtsTNrDLUtp3PwNafc8aAxiCINg8VnJl/view?usp=sharing","https://drive.google.com/drive/folders/1fH4XaOoIEMr3UmcPfkEgNj79CMvtc3QO?usp=drive_link","https://drive.google.com/file/d/1ULYZHDoBVCnohi0EyDeya7F3Pq2p-7c6/view?usp=sharing"],["校訂課程","校門週邊及愛心站探訪","https://drive.google.com/file/d/1CAplaXuZ0pvdXY0MqPZ00wVmnbFCw9zh/view?usp=sharing","#","https://drive.google.com/file/d/1hLNFiwmGxTb9ei9c8uNOC0fVFSxVBJO_/view?usp=sharing"]]],["下學期 (3 單元)",[["生活領域","交通安全停看聽-1","https://drive.google.com/file/d/1PZOfnetQ3xLwBsto-d5EtHYZCv8Yycd-/view?usp=sharing","https://drive.google.com/drive/folders/1fH4XaOoIEMr3UmcPfkEgNj79CMvtc3QO?usp=drive_link","https://drive.google.com/file/d/1PZOfnetQ3xLwBsto-d5EtHYZCv8Yycd-/view?usp=sharing"],["健體領域","安全上學我注意-2","https://drive.google.com/file/d/1ztoC5fNAhmrVVWFe40F3_4vENLITHYbD/view?usp=sharing","https://drive.google.com/drive/folders/1fH4XaOoIEMr3UmcPfkEgNj79CMvtc3QO?usp=drive_link","https://drive.google.com/file/d/1F0fwxiSF65YFxY7T1W_9H0ESDp5o6Otx/view?usp=sharing"],["校訂課程","7-11路口小綠人挑戰","https://drive.google.com/file/d/1ybsjZSA_rvBa5a3L7pEHyWg0cENrmrUI/view?usp=sharing","#","https://drive.google.com/file/d/1hhlOGhRUIas4OSlvL03bKNpWouZXxtKb/view?usp=sharing"]]]],"m":"【推薦集數】 ▪ 第十集：《黑色暴風雨》 核心： 號誌故障應變。219巷小綠人倒數判斷。 ▶️ 點此觀看影片","mu":["https://youtu.be/6WlGn3Zn_CM"]},{"g":"【第一學習階段】二年級","t":"大湖有禮・平安歸（龜）","f":"上學期： 五大守則、走廊不奔跑、專心行走 下學期： 機車小乘客、汽車兩段式開門、各國禮儀","s":[["上學期 (3 單元)",[["生活領域","機車小乘客(含跨坐)","https://drive.google.com/file/d/1LztdTx7kySsJ0WW-_r96kyseQtGlsjDG/view?usp=sharing","https://docs.google.com/presentation/d/1h9KQKz-1373iiW9NYqhDTaR6_1rprlCI/edit?usp=drive_link&ouid=109316632324251131303&rtpof=true&sd=true","https://drive.google.com/file/d/1iC6AUlwDFQ-j7wxesaCV6Za8c39emh5p/view?usp=sharing"],["健體領域","行走安全我遵行","https://drive.google.com/file/d/14yj3wyGEERD9Ht6Z-uaYIx-DXitrnsUl/view?usp=sharing","https://drive.google.com/drive/folders/1fH4XaOoIEMr3UmcPfkEgNj79CMvtc3QO?usp=drive_link","https://drive.google.com/file/d/12vo4YFiqREzZkHXkTX9KLFjtGMK4K4E1/view?usp=sharing"],["校訂課程","168巷人車爭道解密","https://drive.google.com/file/d/1MIisRYrWtahB-QfL2v7JmaaoQOSY-UjP/view?usp=sharing","#","https://drive.google.com/file/d/1o_Bcj14i3Ommo0iRwInJy97q2MGZ52QB/view?usp=sharing"]]],["下學期 (3 單元)",[["生活領域","汽車小乘客-1(安全帶)","https://drive.google.com/file/d/1XpB09smkZBf_SFkVYAq_Oh5suT7yihVr/view?usp=sharing","https://docs.google.com/presentation/d/1h9KQKz-1373iiW9NYqhDTaR6_1rprlCI/edit?usp=drive_link&ouid=109316632324251131303&rtpof=true&sd=true","https://drive.google.com/file/d/1covpHQCUxIm-bEo05kveNfw9bvuhI5YY/view?usp=sharing"],["健體領域","汽車小乘客-2(兩段開門)","https://drive.google.com/file/d/1Rq--ZCG0ZimZhlVVN3Ws1jqVzh93dFzg/view?usp=sharing","https://docs.google.com/presentation/d/1h9KQKz-1373iiW9NYqhDTaR6_1rprlCI/edit?usp=drive_link&ouid=109316632324251131303&rtpof=true&sd=true","https://drive.google.com/file/d/16bLQ4hF5WYdvLuqwlxZh1gKB-RJGJc9Z/view?usp=sharing"],["校訂課程","校門接送與荷式開門演練","https://drive.google.com/file/d/1i63Z6f8ZP-HDjYJTugIvgulka1PmH56I/view?usp=sharing","#","https://drive.google.com/file/d/1aWMdQmScSH4_SWdgnZLItlSJC5L3R9Cm/view?usp=sharing"]]]],"m":"【推薦集數】 ▪️ 第七集：《魔神大危機》 核心： 小客車乘車危險與反手開門法。走廊不奔跑專心走。 ▶️ 點此觀看影片","mu":["https://youtu.be/IoAFfFiOzW8"]},{"g":"【第二學習階段】三年級","t":"大湖里悠遊・安心乘車行","f":"上學期： 社區危險辨識、感謝導護志工 下學期： 公車捷運搭乘守則、繪製社區安全地圖","s":[["上學期 (3 單元)",[["綜合領域","向導護志工敬禮致謝","https://drive.google.com/file/d/1rlViKAu22BkWxVQmDY6gpLVcXNalFzTx/view?usp=sharing","#","https://drive.google.com/file/d/1g5imllIstWWQ6-G6RTBlQItooQXzIp8D/view?usp=sharing"],["健體領域","行人危險知多少","https://drive.google.com/file/d/1ub1dH7DJMym7m3YrFbbDCaVSdPTKiOfS/view?usp=sharing","https://docs.google.com/presentation/d/1A7_rlcxvysY7Ebl-BV_wpLQH4dAeeSZB/edit?usp=drive_link&ouid=109316632324251131303&rtpof=true&sd=true","https://drive.google.com/file/d/10_hKerxgfJLeBgNig0beXJ7iNNZ1WEnP/view?usp=sharing"],["校訂課程","大湖導護志工崗位致敬與踏查","https://drive.google.com/file/d/10GPblT-QNmMqJRH1cfFu9g2GWH2C2H-A/view?usp=sharing","#","https://drive.google.com/file/d/1Ovao3oy5sppwMLQVutr0OYEAwUaE0l9h/view?usp=sharing"]]],["下學期 (3 單元)",[["綜合領域","安全乘車我遵守","https://drive.google.com/file/d/1JWuYrYkzYfxzZ2p1AWmb1iJJjPx3j-eN/view?usp=sharing","https://docs.google.com/presentation/d/1KEMfCazdTcdfjphcw_kMnAxOa7Jz2NhW/edit?usp=drive_link&ouid=109316632324251131303&rtpof=true&sd=true","https://drive.google.com/file/d/1SUV2-vqj4xhBuPMGaTiHh0mCeolbQmY1/view?usp=sharing"],["健體領域","過馬路時看一看","https://drive.google.com/file/d/1A9-nigkykw1ebvMDY7fdPDag3zWf9ExI/view?usp=sharing","https://docs.google.com/presentation/d/1A7_rlcxvysY7Ebl-BV_wpLQH4dAeeSZB/edit?usp=drive_link&ouid=109316632324251131303&rtpof=true&sd=true","https://drive.google.com/file/d/162KAljf39Z53dhGL_F62gmi2nwOHiBTZ/view?usp=sharing"],["藝文領域","繪製社區安全通學地圖","#","#","#"],["校訂課程","走讀繪製大湖通學地圖","https://drive.google.com/file/d/1fLPF37Yrlm2GH898-fXM3org51K0hKxo/view?usp=sharing","#","https://drive.google.com/file/d/1K2YajfkwJnY0JRJVbk-4-qRDjhmLv2_O/view?usp=sharing"]]]],"m":"【推薦集數】 ▪️ 第十四集：《守護安全的力量》 核心： 交通事故冷靜應變、大眾運輸乘車守則與感謝導護志工。 ▶️ 點此觀看影片","mu":["https://youtu.be/rCRsVfPhFJs"]},{"g":"【第二學習階段】四年級","t":"湖畔同行・安全伴我行","f":"上學期： 視野死角、大車內輪差、無號誌路口 下學期： 安全逃生設備、大客車逃生實作演練","s":[["上學期 (3 單元)",[["綜合領域","停在安全的地方","https://drive.google.com/file/d/1IHqOsLxWXIEHpQINCBd63NPYLGlelH5P/view?usp=sharing","https://docs.google.com/presentation/d/1A7_rlcxvysY7Ebl-BV_wpLQH4dAeeSZB/edit?usp=drive_link&ouid=109316632324251131303&rtpof=true&sd=true","https://drive.google.com/file/d/1wEYOdxRbww9ZabgWr-z2Sh5MnJIS0kt2/view?usp=sharing"],["健體領域","穿越道路停看聽","https://drive.google.com/file/d/10ClQzCJv_4wTxaXSjisp-YXf_tppqlFQ/view?usp=sharing","https://docs.google.com/presentation/d/1A7_rlcxvysY7Ebl-BV_wpLQH4dAeeSZB/edit?usp=drive_link&ouid=109316632324251131303&rtpof=true&sd=true","https://drive.google.com/file/d/1wEYOdxRbww9ZabgWr-z2Sh5MnJIS0kt2/view?usp=sharing"],["校訂課程","成功路大湖山莊路口大車死角檢驗","https://drive.google.com/file/d/1WTLYYwUw0eQaaKoAYGnTMFRwa7MG5cGT/view?usp=sharing","#","https://drive.google.com/file/d/1EfBHV9FdO_oQSRtN23P6Yq2ii6A4Po_4/view?usp=sharing"]]],["下學期 (3 單元)",[["綜合領域","大客車逃生實作演練","https://drive.google.com/file/d/1p0-q-Xu9O7V3sbnvhLmK3HhEst6cq_3z/view?usp=sharing","https://docs.google.com/presentation/d/1KEMfCazdTcdfjphcw_kMnAxOa7Jz2NhW/edit?usp=drive_link&ouid=109316632324251131303&rtpof=true&sd=true","https://drive.google.com/file/d/1Cg7xzaX-siK1lXpCnf-WGzzlcKywD201/view?usp=sharing"],["健體領域","安全逃生我知道","https://drive.google.com/file/d/1dX4q4nhIyCqbrQwUbSlQnuYLSENX0p39/view?usp=sharing","https://docs.google.com/presentation/d/1KEMfCazdTcdfjphcw_kMnAxOa7Jz2NhW/edit?usp=drive_link&ouid=109316632324251131303&rtpof=true&sd=true","https://drive.google.com/file/d/179GNE4ekCtnp5LzxtVoPi034U73hxLVq/view?usp=sharing"],["校訂課程","校外教學大客車安全避難實兵演練","https://drive.google.com/file/d/1ZJs9tkFBBDzJtge9YB6zUZSPTW_p8MIQ/view?usp=sharing","#","https://drive.google.com/file/d/1PKk_uAffWntNzvfRLZ3A1STTPQmx6Oof/view?usp=sharing"]]]],"m":"【推薦集數】 ▪️ 第八集：《七彩電波球》（車輛視野死角與內輪差） ▪️ 第四集：《尖叫巴士》（大客車搭乘與安全門逃生） ▶️ 點此觀看七彩電波球 ▶️ 點此觀看尖叫巴士","mu":["https://youtu.be/KG4hc2vtvq4","https://www.youtube.com/watch?v=EcJCyrGuYxI"]},{"g":"【第三學習階段】五年級","t":"大山追風・自主安全行","f":"上學期： 自行車檢修 (ABC原則)、標誌號誌 下學期： 單車防禦駕駛與路權、單車路考演練","s":[["上學期 (3 單元)",[["綜合領域","守規則，自在騎","https://drive.google.com/file/d/1ILniCxeLXESXEnJHbxA9FiVZk6m3nQCV/view?usp=sharing","https://docs.google.com/presentation/d/1QQBn22-OKO9Q0B1ltDjO4o1FnwDQBnOj/edit?usp=drive_link&ouid=109316632324251131303&rtpof=true&sd=true","https://drive.google.com/file/d/14fXBgkJbXzXr8dAMzhqigaCboxkwjqgB/view?usp=sharing"],["健體領域","自行車放大鏡","https://drive.google.com/file/d/1SAT4Rc33eS4LS6x9VCDX0ddWPTP_NJYn/view?usp=sharing","https://drive.google.com/drive/folders/1VUpWNgSTobsKxLjSCWWDlKfAmchBjZNZ?usp=drive_link","https://drive.google.com/file/d/1DaqZyRz_M1Q-mhiqevWeO72O94CCOlXr/view?usp=sharing"],["校訂課程","大湖山莊街單車標誌踏查與車況大檢點","https://drive.google.com/file/d/1aV9JnyAx7K9sXh6WwrXtZhGDclvwHNZW/view?usp=sharing","#","https://drive.google.com/file/d/1LFFgVnA_TdexWxZ_RFwXi87R62ljrMaG/view?usp=sharing"]]],["下學期 (3 單元)",[["綜合領域","安全騎乘行-1(防禦駕駛)","https://drive.google.com/file/d/1V5R9NUv8lLBUnhRgz0ZYrIX-FvvtKpbI/view?usp=sharing","https://drive.google.com/drive/folders/1VUpWNgSTobsKxLjSCWWDlKfAmchBjZNZ?usp=drive_link","https://drive.google.com/file/d/1k9rVbs0ouiHCDrblLznMFIPeYoannJ1O/view?usp=sharing"],["健體領域","安全騎乘行-2(狀況應變)","https://drive.google.com/file/d/160TM7eYsMpc35Khe1xWXnJsj7TjEL3mv/view?usp=sharing","https://drive.google.com/drive/folders/1VUpWNgSTobsKxLjSCWWDlKfAmchBjZNZ?usp=drive_link","https://drive.google.com/file/d/1Fa0NSZMO00-3f3zfENbHC01R8-qfgXAH/view?usp=sharing"],["校訂課程","大湖防禦駕駛路權演練","https://drive.google.com/file/d/1WTgC5YltJAnZrfXEDP67f977O8GOLiNU/view?usp=sharing","#","https://drive.google.com/file/d/1GCdyFi4gYoxOgYe0-UVNhuDB1QvxpPZi/view?usp=sharing"]]]],"m":"【自行車三部曲推薦】 ▪️ 第十二集：《不聽話的妖Bike》 ▶️ 點此觀看影片 ▪️ 第十一集：《小紅人自行車隊》 ▶️ 點此觀看影片 ▪️ 第十三集：《卡打掐追擊戰》 ▶️ 點此觀看影片","mu":["https://youtu.be/3rdPvRP6nyQ","https://www.youtube.com/watch?v=V4PyYOoXOSI","https://www.youtube.com/watch?v=u_-Up7Zv_bw"]},{"g":"【第三學習階段】六年級","t":"夢想起飛・平安遠行","f":"上學期： 自主通學路線規劃、特殊複雜路段判斷 下學期： 大湖人本交通問題改善自主提案企劃","s":[["上學期 (3 單元)",[["綜合領域","交通安全小達人","https://drive.google.com/file/d/1ZvSP6DrHEi_txCdYI-SMLGgREodcFi74/view?usp=sharing","https://docs.google.com/presentation/d/11ke8DDbmxIQxw97oJtmNoDuU2RK6_B1E/edit?usp=drive_link&ouid=109316632324251131303&rtpof=true&sd=true","https://drive.google.com/file/d/1xfwNfK-M_BEORmbYAzhHjCOJFlhwA1O8/view?usp=sharing"],["健體領域","道路安全行(複雜路口)","https://drive.google.com/file/d/1rz1Pgabt_Mp1l1FiFpGsr5XtDzCDb00S/view?usp=sharing","https://docs.google.com/presentation/d/11ke8DDbmxIQxw97oJtmNoDuU2RK6_B1E/edit?usp=drive_link&ouid=109316632324251131303&rtpof=true&sd=true","https://drive.google.com/file/d/14Zbs-nXaEhiCcwTYvhS7hMMNHgoFgwNk/view?usp=sharing"],["校訂課程","大湖獨立自主通學路徑數位測繪","https://drive.google.com/file/d/1MU2ds1gnVgI1-cN1iU2x7EMTy0HdJI1C/view?usp=sharing","#","https://drive.google.com/file/d/1EEYf-7uBUzFlojQ40NIRZDFbIIOEYeeB/view?usp=sharing"]]],["下學期 (3 單元)",[["綜合領域","大湖人本交通改善提案","https://drive.google.com/file/d/1D7uknbPWnUVbAnmHXwh5zhlNrQfW7VG2/view?usp=sharing","#","https://drive.google.com/file/d/1_bpndYQ_ksYf9CWi_36jmSniiGUegnI4/view?usp=sharing"],["健體領域","危險知多少(空間探究)","https://drive.google.com/file/d/1_nfJZP1FANZxgsWJSJnTCChr7Bw0b0ak/view?usp=sharing","https://docs.google.com/presentation/d/11ke8DDbmxIQxw97oJtmNoDuU2RK6_B1E/edit?usp=drive_link&ouid=109316632324251131303&rtpof=true&sd=true","https://drive.google.com/file/d/1K5P2GKFmY1mEHuaOtAuLTOZV5c0s3i0t/view?usp=sharing"],["校訂課程","大湖人本交通問題改善自主提案發表","https://drive.google.com/file/d/1APnfd7Q1NEjvfwylnZ31CcQpYHQCH-Cw/view?usp=sharing","#","https://drive.google.com/file/d/1at7cRkLuIPLs9JlHlj9RBAjvU3QDT0lj/view?usp=sharing"]]]],"m":"【高階綜合探索】 ▪️ 第九集：《AI魔神終極之戰》（特殊路口與複雜路況） ▶️ 點此觀看影片 ▪️ 第十四集：《守護安全的力量》（公民參與環境改善） ▶️ 點此觀看影片","mu":["https://youtu.be/SUIkMfwH10I","https://www.youtube.com/watch?v=rCRsVfPhFJs"]},{"g":"【幼兒與樂齡共守】","t":"幼兒園 & 樂齡學堂","f":"幼兒階段： 牽手過馬路、乘車安全認知 樂齡階段： 導護志工專業技能與跨世代共守","s":[["幼兒園單元",[["教保活動","一起牽手走・快樂平安行","#","https://drive.google.com/drive/folders/1fH4XaOoIEMr3UmcPfkEgNj79CMvtc3QO?usp=drive_link","#"],["教保活動","優質小乘客系列","#","https://drive.google.com/drive/folders/1Ou5pajcE1V93bP-Bn9Uh6lx813CUzcUS?usp=drive_link","#"]]],["樂齡學堂單元",[["志願服務","導護志工手勢與法規培訓","#","#","#"],["跨代共融","跨世代交通推廣大使","#","#","#"]]]],"m":"【推薦資源】 ▪️ 幼兒：《斑斑去上學》、妖果小學《安全乘客挑戰賽》 ▪️ 樂齡：妖果小學《黑色暴風雨》(指揮手勢) ▶️ 幼兒：點此觀看安全乘客 ▶️ 樂齡：點此觀看黑色暴風雨","mu":["https://youtu.be/jnrr53ekU1Y","https://youtu.be/6WlGn3Zn_CM"]}];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const short=i=>i==6?'幼兒·樂齡':D[i].g.replace(/【.*?】/,'');
+const dark=matchMedia('(prefers-color-scheme:dark)').matches;
+const BG=dark?0x2B2233:0xEBD6B0;
+const cv=document.getElementById('c');
+const R=new THREE.WebGLRenderer({canvas:cv,antialias:true});
+R.setPixelRatio(Math.min(devicePixelRatio,2));R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;
+const S=new THREE.Scene();S.background=new THREE.Color(BG);S.fog=new THREE.Fog(BG,34,85);
+const cam=new THREE.PerspectiveCamera(38,1,.1,100);
+const hemi=new THREE.HemisphereLight(0xFFEBCF,dark?0x4A3A66:0xD9A877,.62);S.add(hemi);const lamps=[];
+function lamp(g,x,z){const m=new THREE.MeshStandardMaterial({color:0xFFE9A8,emissive:0xFFC85A,emissiveIntensity:0});const b=new THREE.Mesh(new THREE.SphereGeometry(.1,14,10),m);b.position.set(x,1.15,z);g.add(b);const p=new THREE.Mesh(new THREE.CylinderGeometry(.035,.035,1.1,8),new THREE.MeshStandardMaterial({color:'#555'}));p.position.set(x,.55,z);p.castShadow=true;g.add(p);const l=new THREE.PointLight(0xFFC070,0,6,2);l.position.copy(b.position);g.add(l);lamps.push({m,l})}
+const sun=new THREE.DirectionalLight(dark?0xB9A6FF:0xFFE2B0,dark?.8:1.35);sun.position.set(8,14,6);sun.castShadow=true;
+sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-12,right:12,top:12,bottom:-12,near:1,far:40});sun.shadow.bias=-.0006;S.add(sun);
+const mc={},mat=c=>mc[c]||(mc[c]=new THREE.MeshStandardMaterial({color:c,roughness:.7}));
+const B=(w,h,d)=>new THREE.BoxGeometry(w,h,d),C=(r,h,s=20)=>new THREE.CylinderGeometry(r,r,h,s),Sp=r=>new THREE.SphereGeometry(r,18,14),K=(r,h,s=14)=>new THREE.ConeGeometry(r,h,s);
+function mk(p,g,c,x=0,y=0,z=0,rx=0,ry=0,rz=0){const m=new THREE.Mesh(g,mat(c));m.position.set(x,y,z);m.rotation.set(rx,ry,rz);m.castShadow=m.receiveShadow=true;p.add(m);return m}
+const grp=(p,x,y,z,ry=0)=>{const g=new THREE.Group();g.position.set(x,y,z);g.rotation.y=ry;p.add(g);return g};
+// ---- props
+function tree(p,x,z,s=1,c='#6BBF59'){mk(p,C(.08*s,.5*s,8),'#8A5A3B',x,.25*s,z);mk(p,K(.42*s,.8*s),c,x,.8*s,z);mk(p,K(.32*s,.65*s),c,x,1.2*s,z)}
+// 避讓：角色的行走路線（起點、人行道、斑馬線通道）周圍不放行人
+function KA(p,x,z){p.updateWorldMatrix(true,false);const w=p.localToWorld(new THREE.Vector3(x,0,z));let X=w.x,Z=w.z;
+ const segs=[];for(let m=0;m<6;m++){const a=(30+60*m)*Math.PI/180,c=[(dd-.8)*Math.sin(a),(dd-.8)*Math.cos(a)],q=m==1?[[0,.2],[1,.55],c]:[[0,.2],c];for(let i=0;i<q.length-1;i++)segs.push([q[i],q[i+1]])}
+ for(let it=0;it<8;it++){
+  let d=Math.hypot(X,Z-.2);if(d<1.8){const k=d<.01?[0,-1]:[X/d,(Z-.2)/d];X=k[0]*1.8;Z=.2+k[1]*1.8}
+  const r=Math.hypot(X,Z);if(r>dd+.2&&r<dd+1.55){X*=(dd+1.55)/r;Z*=(dd+1.55)/r}
+  segs.forEach(sg=>{const ax=sg[0][0],az=sg[0][1],bx=sg[1][0],bz=sg[1][1],dx=bx-ax,dz=bz-az,t=Math.max(0,Math.min(1,((X-ax)*dx+(Z-az)*dz)/(dx*dx+dz*dz))),nx=ax+dx*t,nz=az+dz*t,e=Math.hypot(X-nx,Z-nz);
+   if(e<.65){const ux=e<.01?-dz:X-nx,uz=e<.01?dx:Z-nz,l=Math.hypot(ux,uz)||1;X=nx+ux/l*.65;Z=nz+uz/l*.65}})}
+ const l=p.worldToLocal(new THREE.Vector3(X,0,Z));return [l.x,l.z]}
+function kid(p,x,z,c='#FF6B6B',s=1){const q=KA(p,x,z);x=q[0];z=q[1];const g=grp(p,x,0,z),ph=x*7+z*3;mk(g,K(.14*s,.36*s),c,0,.18*s,0);mk(g,Sp(.11*s),'#FFD7B5',0,.45*s,0);mk(g,Sp(.115*s),'#4A3426',0,.5*s,-.02*s);anim.push(t=>{g.position.y=Math.abs(Math.sin(t*5+ph))*.06;g.position.x=x+Math.sin(t*.7+ph)*.12;g.rotation.z=Math.sin(t*5+ph)*.08;g.rotation.y=Math.cos(t*.7+ph)>0?Math.PI/2:-Math.PI/2})}
+function wheel(p,x,y,z,r=.1){mk(p,C(r,.08,12),'#333',x,y,z,Math.PI/2)}
+function car(p,x,z,ry,c,openDoor,drive){const g=grp(p,x,0,z,ry);mk(g,B(1,.28,.5),c,0,.26,0);mk(g,B(.5,.24,.5),c,-.05,.5,0);const gl='#BFE6F5';mk(g,B(.012,.14,.4),gl,.201,.53,0);mk(g,B(.012,.14,.4),gl,-.301,.53,0);[-1,1].forEach(s=>[.08,-.18].forEach(x=>mk(g,B(.18,.13,.012),gl,x,.54,s*.251)));
+ [[-.33,.22],[.33,.22],[-.33,-.22],[.33,-.22]].forEach(a=>wheel(g,a[0],.1,a[1]));if(drive){anim.push(t=>{const w=t*.9+x;const yw=Math.PI/2*(1-Math.tanh(Math.cos(w)*4));g.position.x=x+Math.sin(w)*drive;g.position.z=z-Math.sin(yw)*.1;g.rotation.y=yw})}
+ return g}
+function road(p,ry=0){return grp(p,0,0,0,ry)}
+function zebra(p,x,ry=0){const g=grp(p,x,0,0,ry);for(let i=-3;i<=3;i++)mk(g,B(.5,.054,.09),'#fff',0,.035,i*.16-.02);return g}
+function light(p,x,z,lit=2){mk(p,C(.04,1.2,8),'#555',x,.6,z);mk(p,B(.22,.55,.2),'#333',x,1.3,z);
+ ['#FF4B4B','#FFC53D','#3DDC6B'].forEach((c,i)=>{const m=mk(p,Sp(.07),c,x,1.46-i*.17,z+.1);if(i==lit)m.material=new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:1.2})})}
+function house(p,x,z,w,c,rc){mk(p,B(w,.7,w),c,x,.35,z);mk(p,K(w*.78,.5,4),rc,x,.95,z,0,Math.PI/4);mk(p,B(.18,.3,.03),'#8A5A3B',x,.15,z+w/2)}
+function cone(p,x,z){mk(p,K(.1,.28,10),'#FF8A2B',x,.14,z);mk(p,B(.26,.03,.26),'#FF8A2B',x,.015,z)}
+function bush(p,x,z,s=1,c='#5DB05A'){mk(p,Sp(.22*s),c,x,.16*s,z).scale.y=.8;mk(p,Sp(.15*s),c,x+.15*s,.12*s,z+.05*s)}
+function flower(p,x,z,c='#FF7AA8'){for(let k=0;k<3;k++){const a=k*2.1,fx=x+Math.sin(a)*.1,fz=z+Math.cos(a)*.1;mk(p,C(.012,.2,5),'#4C9A3F',fx,.1,fz);mk(p,Sp(.06),c,fx,.22,fz)}}
+function sign(p,x,z,c='#E8483D'){mk(p,C(.025,.9,8),'#777',x,.45,z);mk(p,C(.17,.03,20),c,x,.95,z,Math.PI/2);mk(p,C(.1,.035,20),'#fff',x,.95,z,Math.PI/2)}
+function bench(p,x,z,ry=0){const g=grp(p,x,0,z,ry);mk(g,B(.6,.05,.2),'#C9885A',0,.22,0);mk(g,B(.6,.18,.04),'#C9885A',0,.36,-.1);mk(g,B(.05,.2,.18),'#8A5A3B',-.25,.1,0);mk(g,B(.05,.2,.18),'#8A5A3B',.25,.1,0)}
+function booth(p,x,z,c='#FFD6C2',ry=0){const g=grp(p,x,0,z,ry);mk(g,B(.7,.5,.5),c,0,.25,0);mk(g,K(.55,.3,4),'#E8483D',0,.65,0,0,Math.PI/4,0);mk(g,Sp(.09),'#FF4B6E',0,.35,.26).scale.z=.4;mk(g,B(.25,.3,.03),'#8A5A3B',-.15,.15,.26)}
+function turtle(p,x,z,s=1){const g=grp(p,x,0,z);mk(g,Sp(.28*s),'#6BB35A',0,.22*s,0).scale.y=.6;mk(g,Sp(.12*s),'#8FD07A',.3*s,.22*s,0);[[-.2,.2],[.2,.2],[-.2,-.2],[.2,-.2]].forEach(a=>mk(g,Sp(.07*s),'#8FD07A',a[0]*s,.06*s,a[1]*s));return g}
+function fountain(p,x,z){mk(p,C(.5,.18,24),'#D9D2C5',x,.09,z);mk(p,C(.42,.2,24),'#8FD3E8',x,.1,z);mk(p,C(.06,.5,10),'#D9D2C5',x,.35,z);mk(p,Sp(.13),'#BFE9F7',x,.65,z)}
+const anim=[];
+// ---- islands
+const SPEC=[
+ {c:'#A5DB72',f(g){road(g);zebra(g,0);light(g,-.9,.75,2);light(g,.9,-.75,2);kid(g,.35,.95,'#3DDC6B');house(g,-1.1,-1.2,.8,'#FFD6C2','#F26A5B');tree(g,1.3,1.2,.9);tree(g,-1.5,.9,.7)}},
+ {c:'#F7D56A',f(g){road(g);kid(g,.2,.95,'#FF9F43');
+  mk(g,Sp(.28),'#6BB35A',1.2,.22,-.9).scale.y=.6;mk(g,Sp(.12),'#8FD07A',1.5,.22,-.9);[[1,-.75],[1.4,-.75],[1,-1.05],[1.4,-1.05]].forEach(a=>mk(g,Sp(.07),'#8FD07A',a[0],.06,a[1]));
+  house(g,-1.2,-1.3,.8,'#FFF1C9','#4FA3D9');tree(g,1.4,1.3,.9,'#8BCF5B')}},
+ {c:'#86D6CB',f(g){road(g);
+  
+  mk(g,C(.03,1.1,8),'#666',.2,.55,1.3);mk(g,B(.4,.3,.04),'#3D8BD9',.2,1.15,1.3);bench(g,-.3,1.4,Math.PI);house(g,.9,-1.3,.8,'#E6F4F1','#3D8BD9');tree(g,-1.5,-1.2,.9)}},
+ {c:'#F5A88A',f(g){road(g);const t=grp(g,-.3,0,1.1);mk(t,B(1.1,.7,.62),'#fff',-.3,.5,0);mk(t,B(.5,.55,.62),'#E8483D',.55,.42,0);mk(t,B(.05,.25,.5),'#BFE6F5',.82,.55,0);
+  [[-.7,.3],[.2,.3],[.6,.3],[-.7,-.3],[.2,-.3],[.6,-.3]].forEach(a=>wheel(t,a[0],.16,a[1],.16));
+  const fan=new THREE.Mesh(new THREE.CircleGeometry(.9,24,-.5,1.0),new THREE.MeshBasicMaterial({color:0xFF3B3B,transparent:true,opacity:.35,side:2,depthWrite:false}));fan.rotation.x=-Math.PI/2;fan.position.set(.45,.06,1.55);fan.rotation.z=Math.PI*.1;g.add(fan);anim.push(t=>{fan.material.opacity=.3+.12*Math.sin(t*3)});
+  cone(g,.9,1.1);cone(g,1.2,.9);kid(g,1.65,1.2,'#4FA3D9');tree(g,-1.5,1.3,.9);house(g,1.2,-1.4,.7,'#FFE0D0','#8A5A3B')}},
+ {c:'#8FCBF2',f(g){
+  const b=grp(g,0,0,1.45);anim.push(t=>{const s=t*.9,vx=-Math.sin(s),vz=Math.cos(s)*.45;b.position.set(Math.cos(s),0,1.45+Math.sin(s)*.45);b.rotation.y=Math.atan2(-vz,vx)});for(let k=0;k<30;k++){const s=k/30*6.283,vx=-Math.sin(s),vz=Math.cos(s)*.45;mk(g,B(.34,.02,.34),'#7CCB6A',Math.cos(s),.025,1.45+Math.sin(s)*.45,0,Math.atan2(-vz,vx),0).castShadow=false}[-.28,.28].forEach(x=>mk(b,new THREE.TorusGeometry(.24,.035,8,22),'#333',x,.26,0));mk(b,B(.7,.04,.04),'#E8483D',0,.4,0,0,0,.3);mk(b,B(.04,.3,.04),'#E8483D',.28,.42,0);mk(b,B(.12,.03,.3),'#333',.3,.62,0);
+  mk(b,K(.1,.34),'#4FA3D9',-.05,.58,0);mk(b,Sp(.1),'#FFD7B5',-.05,.84,0);mk(b,Sp(.13),'#FFC53D',-.05,.89,0).scale.y=.7;
+  for(let i=0;i<4;i++)cone(g,.6+i*.35,-1.0-(i%2)*.15);kid(g,-1.45,1.05,'#FF6B6B');tree(g,1.65,1.0,.8);tree(g,-1.5,-1.1,.8);house(g,.4,-1.5,.6,'#E3F0FB','#4FA3D9')}},
+ {c:'#C9A9EA',f(g){mk(g,C(.5,.12,6),'#C9885A',-.9,.06,1.45);mk(g,B(.5,.04,.35),'#fff',-.9,.15,1.45);
+  mk(g,C(.04,1.4,8),'#8A5A3B',.8,.7,-.1);[['#FF6B6B',1.2,.25],['#4FA3D9',1.0,-.25]].forEach(a=>mk(g,B(.6,.22,.05),a[0],.8+a[2],a[1],-.1));
+  const pl=mk(g,K(.18,.7,3),'#fff',0,2,0,0,0,-Math.PI/2);pl.scale.z=.3;const bl=grp(g,-1.2,0,-.8);mk(bl,C(.015,1.4,6),'#888',0,.7,0);const bo=mk(bl,Sp(.28),'#FF6B6B',0,1.7,0);bo.scale.y=1.2;
+  anim.push(t=>{pl.position.set(Math.sin(t*.8)*1.2,1.8+Math.sin(t*1.6)*.15,Math.cos(t*.8)*1.2);pl.rotation.y=t*.8;bo.position.y=1.7+Math.sin(t*1.2)*.1});
+  kid(g,.2,.9,'#FFC53D');kid(g,-.4,1.2,'#3DDC6B');tree(g,1.4,1.2,1);tree(g,.9,-1.3,.8,'#9ACD6B');road(g,Math.PI/2,2.2).position.set(.2,0,-.3)}},
+ {c:'#F7B6C9',f(g){const gt=grp(g,0,0,-.9);mk(gt,B(.3,1.3,.3),'#FF8A4C',-.9,.65,0);mk(gt,B(.3,1.3,.3),'#FF8A4C',.9,.65,0);mk(gt,B(2.2,.3,.34),'#FFC53D',0,1.4,0);mk(gt,Sp(.2),'#FF5B7A',0,1.75,0).scale.set(1,1,.4);
+  mk(g,B(1.8,.05,2.6),'#E9D3B4',0,.02,.5);kid(g,-.5,.4,'#4FA3D9');kid(g,-.2,.4,'#FF6B6B');kid(g,.1,.4,'#FFC53D');
+  const v=grp(g,.9,0,.6);mk(v,K(.17,.62),'#FFC53D',0,.31,0);mk(v,Sp(.13),'#FFD7B5',0,.72,0);mk(v,Sp(.135),'#E8E8E8',0,.78,0).scale.y=.7;mk(v,C(.02,.8,6),'#8A5A3B',.22,.5,.05);mk(v,C(.14,.03,16),'#3DDC6B',.22,.95,.05,Math.PI/2);
+  tree(g,-1.5,1.2,1.1);tree(g,1.5,1.3,.9,'#7FCB6D');tree(g,-1.6,-.2,.8)}}
+];
+const AX=[];const ISL=[];const Rr=2.7,dd=Rr*Math.sqrt(3)+.2;
+const EXTRA=[
+ g=>{booth(g,.5,-1.75,'#FFD6C2');sign(g,1.9,.75);flower(g,1.0,1.85,'#FF7AA8');flower(g,1.55,1.5,'#FFC53D');flower(g,-.5,1.9,'#B58CFF');bush(g,-.6,1.6);bush(g,-1.4,1.75);kid(g,-.35,1.15,'#4FA3D9');kid(g,-.05,1.2,'#FF6B6B')},
+ g=>{turtle(g,1.0,-1.7,.65);turtle(g,.3,-1.55,.45);bench(g,-.5,1.5);sign(g,-1.9,.95,'#FF9F43');bush(g,-1.2,1.7);bush(g,.6,1.85);flower(g,.1,1.8,'#FF7AA8');flower(g,1.0,1.7,'#FFC53D');kid(g,.9,1.1,'#FF6B6B')},
+ g=>{kid(g,.55,1.15,'#FF9F43');kid(g,.85,1.2,'#4FA3D9');sign(g,1.7,.9,'#3D8BD9');bush(g,-1.2,1.85);flower(g,1.1,1.8,'#FF7AA8');flower(g,-.7,1.95,'#FFC53D');booth(g,-.2,-1.75,'#E6F4F1')},
+ g=>{car(g,-.5,-1.75,0,'#6BBF59');sign(g,1.9,.8,'#E8483D');bush(g,-1.7,-1.0);bush(g,-1.0,1.85);flower(g,.9,1.95,'#FFC53D')},
+ g=>{bush(g,0,1.45,1.1);flower(g,.3,1.45,'#FFC53D');sign(g,-1.9,.8,'#4FA3D9');bush(g,-1.6,-1.0);flower(g,-1.2,-1.7,'#FF7AA8');flower(g,-.4,-1.8,'#FFC53D')},
+ g=>{sign(g,1.8,1.0,'#3D8BD9');const bl2=grp(g,-1.6,0,-1.3);mk(bl2,C(.015,1.2,6),'#888',0,.6,0);const bo2=mk(bl2,Sp(.25),'#4FA3D9',0,1.5,0);bo2.scale.y=1.2;anim.push(t=>{bo2.position.y=1.5+Math.sin(t*1.4+1)*.1});
+  const bd=grp(g,-.2,0,-1.8);[-.45,.45].forEach(x=>mk(bd,C(.03,1.0,6),'#8A5A3B',x,.5,0));mk(bd,B(1.2,.8,.05),'#8A5A3B',0,1.0,0);mk(bd,B(1.1,.7,.052),'#FFFBF2',0,1.0,0);[1,-1].forEach(s=>{const z=s*.032;mk(bd,B(.96,.13,.012),'#FF8A4C',0,1.27,z);mk(bd,B(.5,.035,.014),'#fff',-.18*s,1.27,z);[1.12,1.03,.94].forEach((y,k)=>mk(bd,B(.42-k*.06,.03,.012),'#C9B79C',-.25*s,y,z));mk(bd,B(.4,.015,.012),'#8A6B55',.22*s,.72,z);[[.08,.12,'#4FA3D9'],[.2,.2,'#6BBF59'],[.32,.3,'#FF6B6B']].forEach(a=>mk(bd,B(.07,a[1],.012),a[2],a[0]*s,.72+a[1]/2,z));[.84,.76].forEach(y=>{mk(bd,B(.06,.06,.012),'#3DDC6B',-.42*s,y,z);mk(bd,B(.3,.03,.012),'#C9B79C',-.2*s,y,z)});mk(bd,B(.15,.15,.012),'#FFE27A',.4*s,1.11,z,0,0,.2*s);mk(bd,Sp(.03),'#E8483D',.4*s,1.2,z+s*.01)});;
+  kid(g,.6,1.4,'#FF9F43');flower(g,1.0,1.85,'#FF7AA8');bush(g,-.2,1.85)},
+ g=>{fountain(g,0,1.45);house(g,-1.5,-1.3,.7,'#FFE0D0','#F26A5B');booth(g,1.55,-.05,'#FFD6C2');kid(g,-1.0,1.0,'#4FA3D9');flower(g,1.3,.9,'#FF7AA8');flower(g,-1.3,.5,'#FFC53D');bush(g,1.5,-1.2)}
+];
+
+const water=mk(S,C(10,.04,64),dark?'#4C7BA8':'#8FD3E8',0,-.8,0);water.material=new THREE.MeshStandardMaterial({color:dark?0x4C7BA8:0x8FD3E8,roughness:.25,metalness:.1});
+for(let i=0;i<7;i++){const a=i<6?(30+60*i)*Math.PI/180:0,d=i<6?dd:0;
+ const g=new THREE.Group();g.position.set(Math.sin(a)*d,0,Math.cos(a)*d);g.userData={idx:i,base:g.position.clone(),h:0,delay:i*.12};S.add(g);
+ mk(g,C(Rr*.93,1.2,6),'#B07A52',0,-.85,0);mk(g,C(Rr*.97,.18,6),'#E8C89A',0,-.3,0);mk(g,C(Rr,.32,6),SPEC[i].c,0,-.16,0);
+ const cg=i<6?grp(g,0,0,0,a):g;SPEC[i].f(cg);EXTRA[i](cg);lamp(cg,i<6?.25:-1.75,i<6?-.95:-.7);ISL.push(g);
+ if(i<6){const ha=Math.sin(a),hb=Math.cos(a);mk(S,B(.7,.1,.55),'#D9A56B',ha*dd/2,.04,hb*dd/2,0,a,0)}
+ const l=document.createElement('button');l.className='lab';l.textContent=short(i);l.onclick=()=>pick(i);document.body.appendChild(l);g.userData.lab=l;
+ const n=document.createElement('button');n.textContent=short(i);n.onclick=()=>pick(i);document.getElementById('nav').appendChild(n);g.userData.nav=n}
+// clouds & boats
+const sc=grp(S,0,-.8,0);const sh=new THREE.Mesh(new THREE.RingGeometry(9.9,11,64),new THREE.MeshStandardMaterial({color:0xF1DDA8,roughness:1}));sh.rotation.x=-Math.PI/2;sh.position.y=.015;sh.receiveShadow=true;
+const gnd=new THREE.Mesh(new THREE.CircleGeometry(70,48),new THREE.MeshStandardMaterial({color:dark?0x4F6A58:0xB9D98A,roughness:1}));gnd.rotation.x=-Math.PI/2;gnd.receiveShadow=true;sc.add(gnd);
+const rd=new THREE.Mesh(new THREE.RingGeometry(11.9,13.5,64),new THREE.MeshStandardMaterial({color:0x6B6470,roughness:.9}));rd.rotation.x=-Math.PI/2;rd.position.y=.03;rd.receiveShadow=true;sc.add(rd);
+const ln=new THREE.Mesh(new THREE.RingGeometry(12.65,12.75,64),new THREE.MeshBasicMaterial({color:0xFFE27A}));ln.rotation.x=-Math.PI/2;ln.position.y=.04;sc.add(ln);
+const rn=i=>{const v=Math.sin(i*127.1+311.7)*43758.5453;return v-Math.floor(v)};
+for(let i=0;i<10;i++){const a=i/10*6.283+.3,r=24+rn(i+20)*6,h=mk(sc,Sp(3+rn(i)*2),['#A5D07A','#93C46C','#B5D98A'][i%3],Math.cos(a)*r,0,Math.sin(a)*r);h.scale.y=.4;h.castShadow=false}
+for(let i=0;i<46;i++){const a=rn(i)*6.283,r=19.5+rn(i+99)*13;tree(sc,Math.cos(a)*r,Math.sin(a)*r,.9+rn(i+7)*.9,['#6BBF59','#7FCB6D','#58AE5C','#9ACD6B'][i%4])}
+for(let i=0;i<12;i++){const a=i/12*6.283+rn(i)*.3,r=15+rn(i+50)*2.5;house(sc,Math.cos(a)*r,Math.sin(a)*r,.8+rn(i+3)*.5,['#FFD6C2','#FFF1C9','#E6F4F1','#E3F0FB','#FFE0D0'][i%5],['#F26A5B','#4FA3D9','#8A5A3B','#FFC53D'][i%4])}
+
+const rcars=['#FF6B6B','#FFC53D','#6BBF59','#4FA3D9'].map(c=>car(sc,0,0,0,c,false));
+// ---- 環島道路
+const ring=grp(S,0,0,0);
+const rm=new THREE.Mesh(new THREE.RingGeometry(dd-.5,dd+.5,96),new THREE.MeshStandardMaterial({color:0x5C5560,roughness:.9}));rm.rotation.x=-Math.PI/2;rm.position.y=.03;rm.receiveShadow=true;ring.add(rm);
+for(let k=0;k<60;k++){const p=k/60*6.283;mk(ring,B(.3,.02,.06),'#FFE27A',dd*Math.sin(p),.045,dd*Math.cos(p),0,p,0).castShadow=false}
+for(let k=0;k<6;k++){const p=(60+60*k)*Math.PI/180;mk(ring,B(.5,.12,1.1),'#D9A56B',dd*Math.sin(p),-.04,dd*Math.cos(p),0,p,0)}
+function bus(p){const b=grp(p,0,0,0);mk(b,B(1.3,.5,.55),'#FFC53D',0,.4,0);mk(b,B(1.1,.18,.57),'#BFE6F5',0,.5,0);mk(b,B(.012,.24,.45),'#BFE6F5',.656,.5,0);mk(b,B(.012,.2,.4),'#BFE6F5',-.656,.5,0);[-.17,.17].forEach(z=>mk(b,Sp(.05),'#FFF4C2',.65,.27,z));[[-.4,.3],[.4,.3],[-.4,-.3],[.4,-.3]].forEach(a=>wheel(b,a[0],.13,a[1],.13));return b}
+function bike(p){const b=grp(p,0,0,0);[-.28,.28].forEach(x=>mk(b,new THREE.TorusGeometry(.24,.035,8,22),'#333',x,.26,0));mk(b,B(.7,.04,.04),'#E8483D',0,.4,0,0,0,.3);mk(b,B(.04,.3,.04),'#E8483D',.28,.42,0);mk(b,B(.12,.03,.3),'#333',.3,.62,0);mk(b,K(.1,.34),'#4FA3D9',-.05,.58,0);mk(b,Sp(.1),'#FFD7B5',-.05,.84,0);mk(b,Sp(.13),'#FFC53D',-.05,.89,0).scale.y=.7;return b}
+const loop=[car(ring,0,0,0,'#4FA3D9'),bus(ring),car(ring,0,0,0,'#FFC53D'),car(ring,0,0,0,'#FF9F43'),car(ring,0,0,0,'#FF6B6B'),car(ring,0,0,0,'#6BBF59')];
+// ---- 選取高亮
+// ---- 行人
+const sw=new THREE.Mesh(new THREE.RingGeometry(dd+.5,dd+.92,96),new THREE.MeshStandardMaterial({color:0xEBDCC0,roughness:1}));sw.rotation.x=-Math.PI/2;sw.position.y=.028;sw.receiveShadow=true;ring.add(sw);
+for(let k=0;k<6;k++){const p=(60+60*k)*Math.PI/180;mk(ring,B(.7,.1,.6),'#D9A56B',(dd+.7)*Math.sin(p),-.03,(dd+.7)*Math.cos(p),0,p,0)}
+function person(p,c,h){const g=grp(p,0,0,0);mk(g,K(.14,.36),c,0,.18,0);mk(g,Sp(.11),'#FFD7B5',0,.45,0);mk(g,Sp(.115),h,0,.5,-.02);mk(g,B(.05,.2,.16),'#FF8A4C',-.1,.25,0);return g}
+const walkers=['#FF6B6B','#4FA3D9','#FFC53D','#6BBF59','#B58CFF','#FF9F43','#F7A6C4','#3DC1B5','#FF6B6B','#4FA3D9'].map((c,k)=>{const w=person(ring,c,k%3?'#4A3426':'#8A5A3B');w.userData={k,dir:k<6?1:-1};return w});
+const hl=grp(S,0,0,0);hl.visible=false;
+const hm=new THREE.MeshBasicMaterial({color:0xFF8A4C,transparent:true,opacity:.35,side:2,depthWrite:false});
+const wall=new THREE.Mesh(new THREE.CylinderGeometry(Rr*1.06,Rr*1.06,1.2,6,1,true),hm);wall.position.y=.5;hl.add(wall);
+const flo=new THREE.Mesh(new THREE.RingGeometry(Rr*.98,Rr*1.06,6),new THREE.MeshBasicMaterial({color:0xFFD27A,side:2,transparent:true,opacity:.95,depthWrite:false}));flo.rotation.set(-Math.PI/2,0,Math.PI/2);flo.position.y=.07;hl.add(flo);
+const beam=new THREE.Mesh(new THREE.CylinderGeometry(.5,1.7,7,24,1,true),new THREE.MeshBasicMaterial({color:0xFFE9A8,transparent:true,opacity:.16,side:2,depthWrite:false,blending:THREE.AdditiveBlending}));beam.position.y=4;hl.add(beam);
+const arrow=new THREE.Mesh(new THREE.ConeGeometry(.35,.7,4),new THREE.MeshBasicMaterial({color:0xFF8A4C}));arrow.rotation.x=Math.PI;hl.add(arrow);
+function HL(t){if(sel<0){hl.visible=false;return}const g=ISL[sel];if(!hl.visible)hl.position.set(g.position.x,0,g.position.z);hl.visible=true;hl.position.x+=(g.position.x-hl.position.x)*.2;hl.position.z+=(g.position.z-hl.position.z)*.2;hm.opacity=.28+.12*Math.sin(t*4);arrow.position.y=3.5+Math.sin(t*3)*.25;arrow.rotation.y=t*2;beam.material.opacity=.12+.05*Math.sin(t*3)}
+const boats=[0,1,2].map(i=>{const b=grp(S,0,-.7,0);mk(b,B(.7,.18,.28),['#FF6B6B','#4FA3D9','#FFC53D'][i],0,.1,0);mk(b,K(.25,.7,3),'#fff',0,.55,0);b.userData.ph=i*2.1;return b});
+// ---- camera
+const MOB=innerWidth<=720,R0=MOB?28:22,Y0=MOB?innerHeight*.03:0;
+const cs={th:.6,ph:1.0,r:R0,tx:0,ty:0,tz:0},ct={th:.6,ph:1.0,r:R0,tx:0,ty:0,tz:0},off={x:0,y:Y0},offT={x:0,y:Y0};
+let sel=-1,idle=0,W=1,H=1;
+function resize(){W=innerWidth;H=innerHeight;R.setSize(W,H,false);cam.aspect=W/H;cam.fov=W<H?Math.min(72,2*Math.atan(.3/(W/H))*180/Math.PI):38;cam.updateProjectionMatrix()}
+addEventListener('resize',resize);resize();
+function pick(i){sel=i;const g=ISL[i];const mob=W<=720;
+ ct.tx=g.userData.base.x;ct.tz=g.userData.base.z;ct.r=mob?13.5:11.5;ct.ph=1.0;offT.x=mob?0:W*.18;offT.y=mob?H*.2:0;
+ const o=D[i];const p=document.getElementById('panel');
+ p.innerHTML=`<button class="x" aria-label="關閉">✕</button><span class="stage">${esc(i==6?'共同守護':o.g.match(/【(.*?)】/)[1])}</span><h2>${esc(short(i)==='幼兒·樂齡'?o.g:o.g.replace(/【.*?】/,''))}・${esc(o.t)}</h2><div class="focus">${esc(o.f)}</div>`+
+ o.s.map(s=>`<h3>${esc(s[0])}</h3>`+s[1].map(u=>`<div class="unit"><span class="tag">${esc(u[0])}</span><b>${esc(u[1])}</b><div class="btns">`+[['🔗 教案',2],['📊 簡報',3],['📄 學習單',4]].map(b=>u[b[1]]&&u[b[1]]!='#'?`<a href="${esc(u[b[1]])}" target="_blank" rel="noopener">${b[0]}</a>`:`<span>${b[0]}準備中</span>`).join('')+`</div></div>`).join('')).join('')+
+ (()=>{const parts=o.m.replace(/▶\uFE0F?[^▪▶]*/g,'').split(/▪\uFE0F?/),bl=parts.slice(1);return `<h3>🎬 影音教學推薦</h3>`+bl.map((t,k)=>o.mu[k]?`<a class="vid" href="${esc(o.mu[k])}" target="_blank" rel="noopener">${esc(t.trim())}</a>`:'').join('')})();
+ p.classList.add('open');p.scrollTop=0;p.querySelector('.x').onclick=home;
+ ISL.forEach((g,k)=>{g.userData.lab.classList.toggle('on',k==i);g.userData.nav.classList.toggle('on',k==i)});
+ g.userData.nav.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});document.getElementById('reset').style.display='block'}
+function home(){sel=-1;Object.assign(ct,{tx:0,tz:0,r:W<=720?28:22,ph:1.0});offT.x=0;offT.y=W<=720?H*.03:0;document.getElementById('panel').classList.remove('open');document.getElementById('reset').style.display='none';ISL.forEach(g=>{g.userData.lab.classList.remove('on');g.userData.nav.classList.remove('on')})}
+document.getElementById('reset').onclick=home;
+// ---- input
+const ptrs=new Map();let down=null,pd=0;const ray=new THREE.Raycaster(),mv=new THREE.Vector2();
+function hit(e){mv.set(e.clientX/W*2-1,-(e.clientY/H)*2+1+0);const v=off;
+ // account for view offset
+ mv.set(((e.clientX+off.x)/W)*2-1,-((e.clientY+off.y)/H)*2+1);ray.setFromCamera(mv,cam);
+ const h=ray.intersectObjects(ISL,true)[0];if(!h)return -1;let o=h.object;while(o&&o.userData.idx===undefined)o=o.parent;return o?o.userData.idx:-1}
+cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,e);down={x:e.clientX,y:e.clientY,t:performance.now()};idle=0;if(ptrs.size==2){const[a,b]=[...ptrs.values()];pd=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY)}});
+cv.addEventListener('pointermove',e=>{idle=0;const p=ptrs.get(e.pointerId);
+ if(!p){if(e.pointerType=='mouse'){const k=hit(e);ISL.forEach((g,i)=>g.userData.hov=i==k);cv.style.cursor=k>=0?'pointer':'grab'}return}
+ if(ptrs.size==2){ptrs.set(e.pointerId,e);const[a,b]=[...ptrs.values()],d=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);ct.r=Math.min(34,Math.max(7,ct.r*pd/d));pd=d;down=null;return}
+ ct.th-=(e.clientX-p.clientX)*.006;ct.ph=Math.min(1.38,Math.max(.45,ct.ph-(e.clientY-p.clientY)*.005));ptrs.set(e.pointerId,e)});
+cv.addEventListener('pointerup',e=>{ptrs.delete(e.pointerId);if(down&&Math.hypot(e.clientX-down.x,e.clientY-down.y)<7&&performance.now()-down.t<500){const k=hit(e);if(k>=0)pick(k);else if(sel>=0)home()}down=null});
+cv.addEventListener('pointercancel',e=>{ptrs.delete(e.pointerId);down=null});
+cv.addEventListener('wheel',e=>{e.preventDefault();ct.r=Math.min(34,Math.max(7,ct.r*(1+e.deltaY*.001)))},{passive:false});
+// ---- loop
+const ez=t=>1-Math.pow(1-t,3);const clk=new THREE.Clock();
+// ---- 日夜
+let tod=10,todT=10;const NIGHT=new THREE.Color(0x1B1836),DAY=new THREE.Color(BG),tmp=new THREE.Color(),SI=dark?.8:1.0,todEl=document.getElementById('tod');
+function applyTime(h){const f=Math.max(0,Math.sin((h-6)/12*Math.PI)),n=1-f;tmp.copy(NIGHT).lerp(DAY,f);S.background.copy(tmp);S.fog.color.copy(tmp);
+ sun.intensity=.12+(SI-.12)*f;hemi.intensity=.3+.36*f;const a=(Math.min(18,Math.max(6,h))-6)/12*Math.PI;sun.position.set(-Math.cos(a)*10,4+Math.sin(a)*12,6);sun.color.setHex(f<.5?0xFFB070:(dark?0xB9A6FF:0xFFE2B0));
+ lamps.forEach(o=>{o.l.intensity=n*1.6;o.m.emissiveIntensity=n*2});
+ const hh=Math.floor(h)%24,mm=Math.round((h%1)*60);document.getElementById('clock').textContent=(h<5||h>=19?'🌙':h<8?'🌅':h<17?'☀️':'🌇')+' '+String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0')}
+todEl.oninput=()=>{tod=todT=+todEl.value;applyTime(tod)};applyTime(tod);
+function tick(t){HL(t);if(Math.abs(todT-tod)>.01){tod+=(todT-tod)*.05;applyTime(tod);todEl.value=tod}}
+// ---- 導覽
+function fly(i){sel=i;const g=ISL[i];ct.tx=g.userData.base.x;ct.tz=g.userData.base.z;ct.r=W<=720?13.5:11.5;ct.ph=1.0;offT.x=0;offT.y=W<=720?H*.03:0;document.getElementById('panel').classList.remove('open');ISL.forEach((x,k)=>x.userData.lab.classList.toggle('on',k==i))}
+const STEPS=[
+ ['歡迎來到大湖幸福島','七座小島是七段學習旅程。拖曳可旋轉，滾輪或雙指可縮放。',()=>{home();todT=10}],
+ ['從一年級出發','認識小綠人和斑馬線。一年級先學會看號誌、走斑馬線，再一步一步帶到二年級、三年級……',()=>fly(0)],
+ ['看見大車的死角','四年級的卡車旁有紅色扇形，那是視野死角。站在裡面，司機看不到你！',()=>fly(3)],
+ ['共同守護廣場','幼兒園、樂齡學堂和導護志工在這裡，大家一起守護每一位小朋友。',()=>fly(6)],
+ ['夜晚也要平安','天黑了，路燈亮起來。你也可以拖曳左側的時間滑桿，看看一天的變化。夜間行走要穿亮色衣服！',()=>{home();todT=20.5}],
+ ['準備好了嗎？','點任何一座島，就能打開教案、簡報和學習單。',()=>{home();todT=10}]];
+let ts=-1;const tourEl=document.getElementById('tour');
+function showStep(k){ts=k;const s=STEPS[k];document.getElementById('tt').textContent=s[0];document.getElementById('tp').textContent=s[1];document.getElementById('tc').textContent=(k+1)+' / '+STEPS.length;document.getElementById('nx').textContent=k==STEPS.length-1?'開始探索':'下一步 →';tourEl.classList.add('show');s[2]();if(W<=720)offT.y=H*.1}
+function endTour(){tourEl.classList.remove('show');ts=-1;if(sel>=0&&!document.getElementById('panel').classList.contains('open'))home();try{localStorage.setItem('dahuTour','1')}catch(e){}}
+document.getElementById('nx').onclick=()=>ts>=STEPS.length-1?endTour():showStep(ts+1);document.getElementById('skip').onclick=endTour;document.getElementById('tourBtn').onclick=()=>showStep(0);
+setTimeout(()=>{let seen=false;try{seen=!!localStorage.getItem('dahuTour')}catch(e){}if(!seen)showStep(0)},2800);
+
+// ---- 角色：小湖導覽員／角色面板（外觀・行程・拍照）
+const mb=document.getElementById('mb'),logEl=document.getElementById('log'),ll=document.getElementById('ll'),cpEl=document.getElementById('cp');
+function say(m){mb.textContent=m;mb.classList.remove('pop');void mb.offsetWidth;mb.classList.add('pop')}
+function addLog(m){const d=document.createElement('div');d.textContent=document.getElementById('clock').textContent+'　'+m;ll.prepend(d);while(ll.children.length>30)ll.lastChild.remove()}
+document.getElementById('lgb').onclick=function(){logEl.classList.toggle('show');this.classList.toggle('on')};
+const TIPS=['過馬路：停、看、聽，確認車子都停下來再走。','公車、卡車旁邊有視野死角，別站在裡面喔！','騎腳踏車一定要戴安全帽。','天黑了要穿亮色衣服，讓駕駛看見你。','上下車先看後方有沒有來車，再開車門。','看到導護志工的旗子，要跟著指示走。'];let ti=0;
+document.getElementById('mf').onclick=()=>say(TIPS[ti++%TIPS.length]);
+const DEF={name:'',id:'學童',hs:0,hc:'#4A3426',sk:'#FFD7B5',tp:'#4FA3D9',bt:'#3D4A6B',ac:2};
+const IDS={學童:{hs:0,tp:'#4FA3D9',bt:'#3D4A6B',ac:2,sc:1},幼兒:{hs:0,tp:'#FFE066',bt:'#6BB35A',ac:1,sc:.8},家長:{hs:2,tp:'#6BBF59',bt:'#5A4A3A',ac:0,sc:1.1},導護志工:{hs:0,tp:'#FF9F43',bt:'#3D4A6B',ac:4,sc:1.1},長者:{hs:0,hc:'#D8D8D8',tp:'#B58CFF',bt:'#6B5B4A',ac:0,sc:1},老師:{hs:1,tp:'#3DC1B5',bt:'#4A4A5A',ac:0,sc:1.1},單車騎士:{hs:0,tp:'#E8483D',bt:'#2F2F3A',ac:1,sc:1.05},行人:{hs:0,tp:'#6BBF59',bt:'#3D4A6B',ac:3,sc:1.05}};
+let cfg=Object.assign({},DEF);try{Object.assign(cfg,JSON.parse(localStorage.getItem('dahuAvatar')||'{}'))}catch(e){}
+if(!IDS[cfg.id])cfg.id='學童';
+const save=()=>{try{localStorage.setItem('dahuAvatar',JSON.stringify(cfg))}catch(e){}},nm=()=>cfg.name||cfg.id;
+function av(c){const g=new THREE.Group(),k=IDS[c.id].sc,sw=[],m=(geo,col,x,y,z)=>mk(g,geo,col,x,y,z);
+ [-.06,.06].forEach(x=>{sw.push(m(C(.045,.2,10),c.bt,x,.1,0));m(Sp(.055),'#333',x,.03,.02).scale.set(1,.6,1.4)});
+ m(C(.12,.22,12),c.tp,0,.31,0);[-.15,.15].forEach(x=>{sw.push(m(C(.035,.18,8),c.tp,x,.32,0));m(Sp(.04),c.sk,x,.21,0)});
+ m(Sp(.12),c.sk,0,.52,0);[-.045,.045].forEach(x=>m(Sp(.017),'#222',x,.53,.112));[-.07,.07].forEach(x=>m(Sp(.02),'#FF9FB0',x,.49,.105).scale.z=.5);
+ m(Sp(.126),c.hc,0,.545,-.01).scale.y=.8;
+ if(c.hs==1)m(B(.25,.28,.05),c.hc,0,.43,-.11);if(c.hs==2)m(Sp(.05),c.hc,0,.5,-.14);
+ if(c.ac==1)m(Sp(.135),'#FFD93D',0,.545,-.005).scale.y=.75;
+ if(c.ac==2)m(B(.2,.22,.08),'#E8483D',0,.32,-.13);
+ if(c.ac==3){m(C(.13,.16,12),'#C6F04A',0,.31,0);m(C(.131,.025,12),'#fff',0,.31,0)}
+ if(c.ac==4){m(C(.012,.5,6),'#8A5A3B',.22,.25,.05);m(B(.18,.12,.01),'#FF4B4B',.31,.42,.05)}
+ g.scale.setScalar(.85*k);g.userData.sw=sw;g.userData.k=k;return g}
+let avG=null;const meEl=document.createElement('span');meEl.className='me';document.body.appendChild(meEl);
+function rebuild(){if(avG)S.remove(avG);avG=av(cfg);S.add(avG);meEl.innerHTML='我 <b>'+esc(nm())+'</b>'}
+const rg=new THREE.Mesh(new THREE.RingGeometry(.27,.32,40,1,0,4.6),new THREE.MeshBasicMaterial({color:0xFF6B35,side:2,transparent:true,opacity:.95}));rg.rotation.x=-Math.PI/2;S.add(rg);
+const P={x:0,z:.2,face:0,i:6,to:6};rebuild();
+let lt=0,cpOpen=false,queue=[],wait=0,tab=0;
+const SPD=.8,RS=dd+.78,ROUT=dd+.62,RCU=dd-.8,C0=[0,.2],AN=i=>(30+60*i)*Math.PI/180,pt=(r,a)=>({x:r*Math.sin(a),z:r*Math.cos(a)});
+let wp=[],pend=-1,DT=0,TT=0;
+const canGo=ph=>ph>=13&&ph<=17;
+// ---- 湖：有深淺、不規則湖岸、蘆葦、睡蓮與漣漪
+water.visible=false;
+{const R=11.3,wob=a=>1+.03*Math.sin(3*a+.5)+.02*Math.sin(5*a+1.7)+.012*Math.sin(9*a);
+ const cw=document.createElement('canvas');cw.width=cw.height=256;const cx=cw.getContext('2d'),gr=cx.createRadialGradient(128,128,8,128,128,128);
+ gr.addColorStop(0,dark?'#2A5580':'#4FA9D0');gr.addColorStop(.72,dark?'#3A6E9C':'#7CC9E2');gr.addColorStop(.93,dark?'#5A91B6':'#B2E5EE');gr.addColorStop(1,dark?'#6EA5BC':'#D6F3EE');cx.fillStyle=gr;cx.fillRect(0,0,256,256);
+ const gm=new THREE.CircleGeometry(R,128),pa=gm.attributes.position;for(let k=1;k<pa.count;k++){const x=pa.getX(k),y=pa.getY(k);if(Math.hypot(x,y)>R-.01){const w=wob(Math.atan2(y,x));pa.setXY(k,x*w,y*w)}}
+ const lake=new THREE.Mesh(gm,new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(cw),roughness:.2,metalness:.1}));lake.rotation.x=-Math.PI/2;lake.position.y=-.77;lake.receiveShadow=true;S.add(lake);
+ for(let n=0;n<34;n++){const a=n*.185+.12*Math.sin(n*3.1),r=R*wob(a)-.08;for(let j=0;j<3;j++){const x=r*Math.sin(a)+Math.cos(j*2.4+n)*.1,z=r*Math.cos(a)+Math.sin(j*2.4+n)*.1;mk(S,C(.012,.45+.12*((n+j)%3),5),'#6E8F4E',x,-.55,z);if((n+j)%3==0)mk(S,C(.028,.13,6),'#6B4A2B',x,-.28,z)}}
+ for(let n=0;n<10;n++){const a=n*.63+.4,r=9.3+((n*37)%10)/10*1.3,x=r*Math.sin(a),z=r*Math.cos(a);mk(S,C(.2+.05*(n%3),.012,14),'#5FAE5A',x,-.755,z);if(n%3==0)mk(S,Sp(.06),'#FF9FC0',x+.05,-.73,z)}
+ const rp=[.8,2.9,4.6].map(a=>{const m=new THREE.Mesh(new THREE.RingGeometry(.9,1,40),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0,depthWrite:false,side:2}));m.rotation.x=-Math.PI/2;m.position.set(9.6*Math.sin(a),-.76,9.6*Math.cos(a));S.add(m);return m});
+ anim.push(t=>rp.forEach((m,i)=>{const u=(t*.22+i/3)%1;m.scale.setScalar(.3+u*1.5);m.material.opacity=.55*(1-u)}))}
+// 斑馬線＋行人號誌（每座島一處，橫過環島道路）
+const matG=new THREE.MeshStandardMaterial({color:0x3DDC6B,emissive:0x3DDC6B,emissiveIntensity:.05}),matR=new THREE.MeshStandardMaterial({color:0xFF4B4B,emissive:0xFF4B4B,emissiveIntensity:1.4});
+for(let i=0;i<6;i++){const a=AN(i),z=grp(ring,dd*Math.sin(a),0,dd*Math.cos(a),a-Math.PI/2);for(let j=-3;j<=3;j++)mk(z,B(.1,.012,.9),'#fff',j*.17,.048,0).castShadow=false;
+ [[dd+.85,.7,-1],[dd-.85,-.7,1]].forEach(q=>{const p=pt(q[0],a),tx=Math.cos(a)*q[1],tz=-Math.sin(a)*q[1],px=p.x+tx,pz=p.z+tz,rx=Math.sin(a)*q[2]*.07,rz=Math.cos(a)*q[2]*.07;
+  mk(ring,C(.025,.9,8),'#555',px,.45,pz);mk(ring,B(.13,.32,.12),'#333',px,.95,pz);
+  [[matR,1.03],[matG,.88]].forEach(l=>{const m=new THREE.Mesh(Sp(.045),l[0]);m.position.set(px+rx,l[1],pz+rz);ring.add(m)})})}
+const pv=new THREE.Mesh(new THREE.RingGeometry(13.5,14.5,64),new THREE.MeshStandardMaterial({color:0xEBDCC0,roughness:1}));pv.rotation.x=-Math.PI/2;pv.position.y=.028;pv.receiveShadow=true;sc.add(pv);
+// 汽車：行人綠燈時停在斑馬線前
+const cst=loop.map((_,k)=>k*1.0472);
+function carS(k){const s=cst[k],sp=.17*DT;if(TT%20>=10){const th=((s%6.2832)+6.2832)%6.2832;for(let m=0;m<6;m++){const dl=((AN(m)-th)%6.2832+6.2832)%6.2832;if(dl>.23&&dl-sp<=.23)return s}}return cst[k]=s+sp}
+function arcTo(w,a0,a1){const da=((a1-a0+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI,n=Math.max(1,Math.ceil(Math.abs(da)/.14));for(let k=1;k<=n;k++)w.push(pt(RS,a0+da*k/n))}
+function plan(target){const r=Math.hypot(P.x,P.z),w=[];
+ if(r>dd+.55){const a0=Math.atan2(P.x,P.z);
+  if(target<6)arcTo(w,a0,AN(target));
+  else{let j=0,bd=9;for(let i=0;i<6;i++){const d=Math.abs(((AN(i)-a0+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI);if(d<bd){bd=d;j=i}}
+   arcTo(w,a0,AN(j));w.push(Object.assign(pt(ROUT,AN(j)),{g:j}));w.push(pt(RCU,AN(j)));w.push({x:C0[0],z:C0[1]})}
+ }else if(r<=RCU+.03){
+  if(Math.hypot(P.x-C0[0],P.z-C0[1])>.1)w.push({x:C0[0],z:C0[1]});
+  if(target<6){if(target==1)w.push({x:1,z:.55});w.push(Object.assign(pt(RCU,AN(target)),{g:target}));w.push(pt(RS,AN(target)))}
+ }else return null;
+ return w}
+function walkTo(i){const w=plan(i);if(!w){pend=i;say('等我走到安全的地方，再前往「'+short(i)+'」。');return}
+ pend=-1;wp=w;P.to=i;if(w.length)say(nm()+'出發，前往「'+short(i)+'」！'+(w.some(x=>x.g!==undefined)?'走人行道，過馬路要走斑馬線、等綠燈。':'沿著人行道走。'));else arrive()}
+function arrive(){wait=0;P.i=P.to;const i=P.to,f=String(D[i].f||'');say(nm()+'到「'+short(i)+'」了！'+f.slice(0,44)+(f.length>44?'…':''));addLog(nm()+'走到「'+short(i)+'」');if(pend>=0){const p=pend;pend=-1;walkTo(p)}}
+const _pick=pick,_home=home,_fly=fly;
+const lpEl=document.getElementById('lp');let lpOpen=false,lq='';
+const shut=()=>{cpOpen=false;cpEl.classList.remove('open');document.getElementById('cpb').classList.remove('on');lpOpen=false;lpEl.classList.remove('open');document.getElementById('lsb').classList.remove('on')};
+pick=function(i){shut();queue=[];_pick(i);walkTo(i)};
+fly=function(i){shut();_fly(i);walkTo(i)};
+home=function(){shut();_home();say('回到全島了，再選一座島吧！')};
+function openCp(){shut();_home();document.getElementById('panel').classList.remove('open');cpOpen=true;document.getElementById('cpb').classList.add('on');
+ const mob=W<=720;ct.r=mob?4.8:3.4;ct.ph=1.15;offT.x=mob?0:W*.18;offT.y=mob?H*.2:0;cpEl.classList.add('open');renderCp()}
+document.getElementById('cpb').onclick=()=>cpOpen?home():openCp();
+const HC=['#4A3426','#1F1A17','#8A5A3B','#D8D8D8','#E8B04A','#E8483D'],SK=['#FFD7B5','#F3C29B','#D9A27A','#A8714D'],CL=['#4FA3D9','#6BBF59','#FF9F43','#E8483D','#B58CFF','#F7A6C4','#FFE066','#3DC1B5','#F5F5F5'],BT=['#3D4A6B','#2F2F3A','#5A4A3A','#6BB35A','#E8E0D0'];
+const chips=(l,k,a)=>`<label>${l}</label><div class="ch">`+a.map((x,i)=>`<button data-k="${k}" data-v="${i}" class="${cfg[k]==i?'on':''}">${x}</button>`).join('')+'</div>';
+const cols=(l,k,a)=>`<label>${l}</label><div class="ch">`+a.map(x=>`<button class="sw ${cfg[k]==x?'on':''}" data-k="${k}" data-v="${x}" style="background:${x}" aria-label="${x}"></button>`).join('')+'</div>';
+function renderCp(){const st=cpEl.scrollTop;let b='';
+ if(tab==0)b=`<label>名字</label><input id="cn" maxlength="8" placeholder="替角色取個名字" value="${esc(cfg.name)}"><label>身分</label><div class="ch">`+Object.keys(IDS).map(k=>`<button data-id="${k}" class="${k==cfg.id?'on':''}">${k}</button>`).join('')+`</div><p class="nt">切換身分會套用該身分的預設衣著與配件，之後每一項都能自己改</p>`+chips('髮型','hs',['短髮','長髮','馬尾'])+cols('髮色','hc',HC)+cols('膚色','sk',SK)+cols('上衣','tp',CL)+cols('褲子','bt',BT)+chips('配件','ac',['無','安全帽','書包','反光背心','導護旗'])+`<label>預覽方向</label><div class="two"><button data-f="1">面向鏡頭</button><button data-f="0">背面</button></div>`;
+ else if(tab==1)b=`<p class="nt">角色會走人行道，過馬路只走斑馬線，紅燈就停下來等；從一年級依序走到共同守護廣場，每站停一下。也可以點任一站單獨前往。</p><div class="two"><button data-run="1">▶ 開始行程</button><button data-run="0">■ 停止</button></div><label>站點</label>`+ISL.map((_,i)=>`<div class="unit" data-go="${i}"><span class="tag">${i+1}</span><b>${esc(short(i))}・${esc(D[i].t)}</b></div>`).join('');
+ else b=`<p class="nt">把角色停在喜歡的島上，轉好角度，按下拍照。</p><button class="big" data-snap="1">📸 拍下來</button><div id="shot"></div>`;
+ cpEl.innerHTML=`<button class="x" aria-label="關閉">✕</button><div class="k">MY CHARACTER</div><h2>角色</h2><div class="tabs">`+['外觀','行程','拍照'].map((x,i)=>`<button data-t="${i}" class="${i==tab?'on':''}">${x}</button>`).join('')+'</div>'+b;cpEl.scrollTop=st}
+cpEl.onclick=e=>{const b=e.target.closest('button,[data-go]');if(!b)return;const d=b.dataset;
+ if(b.classList.contains('x'))home();
+ else if(d.t!==undefined){tab=+d.t;renderCp()}
+ else if(d.id){Object.assign(cfg,{hc:DEF.hc},IDS[d.id],{id:d.id});rebuild();save();renderCp()}
+ else if(d.k){cfg[d.k]=(d.k=='hs'||d.k=='ac')?+d.v:d.v;rebuild();save();renderCp()}
+ else if(d.f!==undefined)P.face=Math.atan2(cam.position.x-P.x,cam.position.z-P.z)+(d.f=='1'?0:Math.PI);
+ else if(d.go!==undefined){queue=[];walkTo(+d.go)}
+ else if(d.run!==undefined){queue=d.run=='1'?[0,1,2,3,4,5,6]:[];if(queue.length)walkTo(queue.shift());else say('行程先停在這裡。')}
+ else if(d.snap!==undefined)snap()};
+cpEl.oninput=e=>{if(e.target.id=='cn'){cfg.name=e.target.value;save();meEl.innerHTML='我 <b>'+esc(nm())+'</b>'}};
+
+// ---- 課程清單（類似政策索引）：搜尋單元，點一下角色就走去那座島
+function unitsOf(i){const r=[];D[i].s.forEach(sec=>sec[1].forEach(u=>r.push([sec[0].replace(/\s*[\(（].*?[\)）]/,''),u[0],u[1]])));return r}
+function fillLp(){const q=lq.trim();let h='',n=0;
+ ISL.forEach((_,i)=>{const us=unitsOf(i).filter(u=>!q||(u[1]+u[2]+short(i)+D[i].t).includes(q));if(!us.length)return;n+=us.length;
+  h+=`<div class="unit" data-go2="${i}"><span class="tag">${i+1}</span><b>${esc(short(i))}・${esc(D[i].t)}</b>`+us.map(u=>`<div class="nt">${esc(u[0])}｜${esc(u[1])}　${esc(u[2])}</div>`).join('')+'</div>'});
+ document.getElementById('lpl').innerHTML=h||'<p class="nt">沒有符合的單元，換個關鍵字試試。</p>'}
+function openLp(){shut();_home();document.getElementById('panel').classList.remove('open');lpOpen=true;document.getElementById('lsb').classList.add('on');
+ const mob=W<=720,tot=ISL.reduce((n,_,i)=>n+unitsOf(i).length,0);offT.x=mob?0:W*.18;offT.y=mob?H*.2:0;
+ lpEl.innerHTML=`<button class="x" aria-label="關閉">✕</button><div class="k">THE COURSE INDEX</div><h2>課程清單</h2><p class="nt">${ISL.length} 座島／${tot} 個單元。選一個，走進它的島。</p><input id="lq" placeholder="搜尋單元或領域…" value="${esc(lq)}"><div id="lpl" style="margin-top:12px"></div>`;
+ fillLp();lpEl.classList.add('open');say('想看哪個單元？點一下，我帶你走過去！')}
+document.getElementById('lsb').onclick=()=>lpOpen?home():openLp();
+lpEl.onclick=e=>{if(e.target.closest('.x'))return home();const u=e.target.closest('[data-go2]');if(u)pick(+u.dataset.go2)};
+lpEl.oninput=e=>{if(e.target.id=='lq'){lq=e.target.value;fillLp()}};
+function snap(){cam.clearViewOffset();R.render(S,cam);const c2=document.createElement('canvas');c2.width=cv.width;c2.height=cv.height;const x=c2.getContext('2d'),k=c2.width/800;x.drawImage(cv,0,0);x.fillStyle='rgba(255,251,242,.92)';x.fillRect(0,c2.height-70*k,c2.width,70*k);x.fillStyle='#4A3426';x.font=`800 ${26*k}px 'Noto Sans TC',sans-serif`;x.fillText(nm()+'・大湖幸福島',24*k,c2.height-26*k);
+ const u=c2.toDataURL('image/png');document.getElementById('shot').innerHTML=`<img src="${u}" alt="角色照片"><a class="big" download="大湖幸福島_${esc(nm())}.png" href="${u}">⬇ 下載照片</a>`}
+let nite=false;todEl.addEventListener('input',()=>{const n=tod<5||tod>=19;if(n!=nite){nite=n;say(n?'天黑了，路燈亮起來！穿亮色衣服、戴反光！':'天亮了，上學囉！')}});
+setInterval(()=>{if(ts<0&&sel<0&&!cpOpen&&P.u>=1&&!logEl.classList.contains('show'))say(TIPS[ti++%TIPS.length])},14000);
+say('嗨！我是小湖。按「☺ 角色」打造你的角色，再點一座島讓他走過去！');
+function chars(t){const dt=Math.min(.05,t-lt);lt=t;DT=dt;TT=t;const ph=t%20;let mvg=false;
+ if(wp.length){const w=wp[0];
+  if(w.hold){const n=wp[1]||w;P.face=Math.atan2(n.x-P.x,n.z-P.z)+Math.sin(t*3)*.7;if(canGo(ph)&&t-w.t0>1.2){w.hold=false;wp.shift();say('綠燈了、車都停下來了，左右看過再走斑馬線！')}}
+  else{const dx=w.x-P.x,dz=w.z-P.z,d=Math.hypot(dx,dz);
+   if(d<.05){if(w.g!==undefined){w.hold=true;w.t0=t;say(canGo(ph)?'到路口了，先停一下，左右看。':'紅燈！在路口停下來，等綠燈再過馬路。')}else wp.shift()}
+   else{const st=Math.min(d,SPD*dt);P.x+=dx/d*st;P.z+=dz/d*st;P.face=Math.atan2(dx,dz);mvg=true}}
+  if(!wp.length)arrive()}
+ else if(queue.length){wait+=dt;if(wait>2.4){wait=0;walkTo(queue.shift())}}
+ const gOn=ph>=10&&(ph<17||Math.floor(t*4)%2==0);matG.emissiveIntensity=gOn?1.4:.05;matR.emissiveIntensity=gOn?.05:1.4;
+ const sv=mvg?Math.sin(t*9):0,sw=avG.userData.sw,y=.03+(mvg?Math.abs(Math.sin(t*9))*.02:0);
+ sw[0].rotation.x=sv*.7;sw[1].rotation.x=-sv*.7;sw[2].rotation.x=-sv*.4;sw[3].rotation.x=sv*.4;
+ const vis=t>2.2;avG.visible=rg.visible=vis;avG.position.set(P.x,y,P.z);avG.rotation.y=P.face;rg.position.set(P.x,.06,P.z);rg.rotation.z=t*2;
+ if(cpOpen){ct.tx=P.x;ct.tz=P.z;idle=0}
+ const v=new THREE.Vector3(P.x,y+.56*avG.userData.k+.32,P.z).project(cam);meEl.style.transform=`translate(${(v.x*.5+.5)*W-off.x}px,${(-v.y*.5+.5)*H-off.y}px) translate(-50%,-100%)`;meEl.style.opacity=vis&&v.z<1?1:0}
+function frame(){const t=clk.getElapsedTime();idle+=1/60;tick(t);
+ if(sel<0&&idle>3)ct.th+=.0012;
+ for(const k of ['th','ph','r','tx','tz'])cs[k]+=(ct[k]-cs[k])*.08;off.x+=(offT.x-off.x)*.08;off.y+=(offT.y-off.y)*.08;
+ cam.position.set(cs.tx+cs.r*Math.sin(cs.ph)*Math.sin(cs.th),cs.r*Math.cos(cs.ph),cs.tz+cs.r*Math.sin(cs.ph)*Math.cos(cs.th));cam.lookAt(cs.tx,0,cs.tz);
+ cam.setViewOffset(W,H,off.x,off.y,W,H);
+ ISL.forEach((g,i)=>{const u=g.userData,p=Math.min(1,Math.max(0,(t-.3-u.delay)/1.1)),e=ez(p);
+  const lift=(i==sel?.35:u.hov?.18:0);u.h+=(lift-u.h)*.15;
+  g.position.y=(1-e)*14;g.scale.setScalar((.6+.4*e)*(1+u.h*.14));
+  const v=new THREE.Vector3(g.position.x,g.position.y+(i==6?2.6:2.2),g.position.z).project(cam);
+  u.lab.style.transform=`translate(${(v.x*.5+.5)*W-off.x}px,${(-v.y*.5+.5)*H-off.y}px) translate(-50%,-100%)`;u.lab.style.left=u.lab.style.top=0;u.lab.style.opacity=p>.6?(sel>=0&&i!=sel?.4:1):0});
+ anim.forEach(f=>f(t));chars(t);
+ ring.visible=t>2.2;loop.forEach((v,k)=>{const s=carS(k),Rr2=dd+(k%2?.22:-.2);v.position.set(Rr2*Math.sin(s),.03,Rr2*Math.cos(s));v.rotation.y=s});
+ walkers.forEach(w=>{const u=w.userData,s=t*.025*u.dir+u.k*.63,R=14+(u.dir>0?.12:-.12),bb=Math.sin(t*6+u.k);w.position.set(R*Math.sin(s),-.77+Math.abs(bb)*.04,R*Math.cos(s));w.rotation.y=u.dir>0?s:s+Math.PI;w.rotation.z=bb*.06});
+ rcars.forEach((c,k)=>{const a=t*.15+k*1.57;c.position.set(Math.cos(a)*12.2,0,Math.sin(a)*12.2);c.rotation.y=-a-Math.PI/2});
+ boats.forEach(b=>{const a=t*.12+b.userData.ph;b.position.set(Math.cos(a)*8.2,-.68+Math.sin(t*2+a)*.04,Math.sin(a)*8.2);b.rotation.y=-a;b.rotation.z=Math.sin(t*1.5+a)*.05});
+ R.render(S,cam);requestAnimationFrame(frame)}
+frame();
+</script></body></html>
