@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>綠燈亮起，大湖GO GO！｜大湖資訊競賽 </title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style id="own-css">
+:root{
+  --bg:#f3f7fb;--surface:#fff;--ink:#1d2430;--muted:#5b6778;--line:#d9e1ea;
+  --road:#262b35;--hero:#2a3fe4;--navy:#0f1538;--yellow:#ffc93c;--green:#1f9d62;--blue:#2f6fdb;--red:#e5484d;
+  --tint-g:#e3f5ec;--tint-b:#e4edfc;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12161d;--surface:#1b212b;--ink:#eef2f7;--muted:#9aa6b6;--line:#2e3744;
+  --tint-g:#15352a;--tint-b:#182a4a;--green:#3ec98a;--blue:#6c9bf0;color-scheme:dark;}}
+:root[data-theme="dark"]{--bg:#12161d;--surface:#1b212b;--ink:#eef2f7;--muted:#9aa6b6;--line:#2e3744;--tint-g:#15352a;--tint-b:#182a4a;--green:#3ec98a;--blue:#6c9bf0;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.75 "Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--hero);z-index:10}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+h1,h2,h3{line-height:1.3;margin:0}
+h2{font-size:1.7rem;font-weight:900;margin-bottom:6px}
+.lead{color:var(--muted);margin:0 0 24px;max-width:36em}
+section{padding:48px 0}
+
+/* hero */
+.hero{background-color:var(--hero);background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(135deg,var(--hero) 0%,#6a2fe0 100%);background-size:28px 28px,28px 28px,auto;color:#fff;padding:44px 0 0;position:relative;overflow:hidden}
+.hero .wrap{display:grid;gap:24px;align-items:center}
+@media(min-width:760px){.hero .wrap{grid-template-columns:1.1fr .9fr}}
+.hero h1{font-size:clamp(2.6rem,11vw,4.6rem);line-height:1.15;font-weight:900;letter-spacing:.02em;text-shadow:4px 4px 0 var(--navy)}
+.hero p{margin:16px 0 24px;color:#e3e9ff;max-width:28em}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:12px 22px;border-radius:999px;font-weight:700;text-decoration:none;border:2px solid var(--yellow);cursor:pointer;font:inherit;font-weight:700;line-height:1.4}
+.btn.main{background:var(--yellow);color:#262b35}
+.btn.ghost{background:transparent;color:#fff}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.tab:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.zebra{height:34px;margin-top:0;background:repeating-linear-gradient(90deg,#f2f2f2 0 38px,transparent 38px 76px)}
+.hero svg{width:100%;height:auto;display:block}
+
+/* tracks */
+.tracks{display:grid;gap:18px}
+@media(min-width:760px){.tracks{grid-template-columns:1fr 1fr}}
+.track{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;border-top:8px solid var(--green)}
+.track.s{border-top-color:var(--blue)}
+.track h3{font-size:1.3rem;font-weight:900}
+.who{display:inline-block;margin:8px 0 12px;padding:2px 12px;border-radius:999px;background:var(--tint-g);color:var(--green);font-weight:700;font-size:.9rem}
+.track.s .who{background:var(--tint-b);color:var(--blue)}
+.track ul{margin:0;padding-left:1.2em}
+.track li{margin:4px 0}
+.note{margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--bg);font-size:.95rem}
+.track{display:flex;flex-direction:column}
+.track .who{align-self:flex-start}
+.track ul{flex:1}
+.track .js-form{align-self:flex-start;margin-top:16px;width:12.5rem;max-width:100%;text-align:center}
+.track .when{margin-top:10px;color:var(--muted);font-size:.95rem}
+
+
+/* track cards v2 */
+.track .top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.grade{display:inline-block;padding:4px 18px;border-radius:999px;background:var(--tint-g);color:var(--green);font-size:1.4rem;font-weight:900;line-height:1.4;white-space:nowrap}
+.track.s .grade{background:var(--tint-b);color:var(--blue)}
+.due{flex:none;text-align:center;border:2px solid var(--green);border-radius:12px;overflow:hidden;min-width:104px;background:var(--surface)}
+.track.s .due{border-color:var(--blue)}
+.due .lb{display:block;background:var(--green);color:var(--surface);font-size:.75rem;font-weight:700;padding:1px 8px;line-height:1.6}
+.track.s .due .lb{background:var(--blue)}
+.due .dt{display:block;padding:4px 10px 5px;font-size:1.1rem;font-weight:900;line-height:1.3;color:var(--ink)}
+.due .dt small{display:block;font-size:.75rem;font-weight:700;color:var(--muted)}
+.thead{display:flex;align-items:center;gap:12px;min-width:0}
+.track .top{align-items:center}
+.track .grade{align-self:flex-start;margin:16px 0 6px}
+.thead h3{min-width:0}
+.thead .art{width:52px;height:52px;flex:none}
+.track ul.info{list-style:none;margin:0;padding:0;flex:1}
+.track ul.info li{display:flex;gap:10px;align-items:flex-start;margin:0;padding:10px 0;border-top:1px solid var(--line)}
+.track ul.info .ic{width:20px;height:20px;flex:none;margin-top:3px;stroke:var(--green)}
+.track.s ul.info .ic{stroke:var(--blue)}
+.track{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto 1fr auto;align-items:center}
+.track .top{display:contents}
+.thead{grid-column:1/-1;grid-row:1;margin:0 0 4px}
+.due{grid-column:2;grid-row:2;margin-top:10px}
+.track .grade{grid-column:1;grid-row:2;margin:10px 0 0;justify-self:start}
+.track ul.info{grid-column:1/-1;grid-row:3;align-self:stretch;margin-top:14px}
+.track .js-form{grid-column:1/-1;grid-row:4;justify-self:start;align-self:end}
+@media(max-width:639px){.track{display:grid;grid-template-columns:1fr auto;align-items:center}.track .top{display:contents}.thead{grid-column:1/-1;grid-row:1}.due{grid-column:2;grid-row:2;margin-top:10px}.track .grade{grid-column:1;grid-row:2;margin:10px 0 0;justify-self:start}.track ul.info{grid-column:1/-1;margin-top:12px}.track .js-form{justify-self:stretch;align-self:stretch;width:auto}.grade{font-size:1.15rem;padding:4px 14px}.due{min-width:0}.due .dt{padding:4px 8px 5px;font-size:1.05rem}}
+
+/* timeline */
+.tl{list-style:none;margin:0;padding:0 0 0 22px;border-left:4px dashed var(--line)}
+.tl li{position:relative;margin:0 0 18px;padding-left:18px}
+.tl li::before{content:"";position:absolute;left:-33px;top:6px;width:18px;height:18px;border-radius:50%;background:var(--yellow);border:3px solid var(--bg)}
+.tl li.p::before{background:var(--green)}.tl li.s::before{background:var(--blue)}
+.tl b{display:block;font-weight:700}
+.tl span{color:var(--muted);font-size:.95rem}
+.yr{margin:26px 0 14px -22px;font-weight:900;color:var(--muted)}
+
+/* stages */
+.stages{display:grid;gap:16px}
+@media(min-width:760px){.stages{grid-template-columns:repeat(3,1fr)}}
+.stage{background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:22px;border-top:8px solid var(--green)}
+.stage.s{border-top-color:var(--blue)}
+.stage .n{font-size:2.4rem;font-weight:900;line-height:1;color:var(--green)}
+.stage.s .n{color:var(--blue)}
+.stage.s .who{background:var(--tint-b);color:var(--blue)}
+.stage h3{font-size:1.2rem;font-weight:900;margin:2px 0 16px}
+.stage dl{margin:0}
+.stage dt{font-size:.9rem;color:var(--muted);font-weight:700}
+.stage dd{margin:0 0 12px;font-weight:700}
+
+/* task */
+.taskgrid{display:grid;gap:26px;align-items:center;margin-top:22px}
+@media(min-width:860px){.taskgrid{grid-template-columns:1.05fr 1fr}}
+.task{list-style:none;margin:0;padding:0;counter-reset:t}
+.task li{counter-increment:t;display:grid;grid-template-columns:34px 1fr;column-gap:14px;align-items:start;margin:0 0 12px;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2)}
+.task li::before{content:counter(t);grid-row:1/3;width:34px;height:34px;border-radius:50%;background:#8fb4ff;color:#0f1538;font-weight:900;display:flex;align-items:center;justify-content:center}
+.task b{grid-column:2;display:block;line-height:1.5;color:#fff}
+.task span{grid-column:2;color:#d5dcf5;font-size:.95rem;line-height:1.65}
+.task li.logic{border-color:#ffab19;background:rgba(255,171,25,.16)}
+.task li.logic::before{background:#ffab19;color:#3a2600}
+
+/* timeline: continuous line from first dot to last dot */
+.tg{display:flow-root}
+.tlwrap .tl{border-left:0;padding-left:26px}
+.tlwrap .yr{margin:26px 0 14px;padding-left:44px}
+.tg:first-child .yr{margin-top:0}
+.tl li::before{z-index:1}
+.tl li::after{content:"";position:absolute;left:-26px;top:15px;bottom:-33px;width:0;border-left:4px dashed var(--line)}
+.tg:first-child .tl li:last-child::after{bottom:-101px}
+.tg:last-child .tl li:last-child::after{display:none}
+@media(min-width:860px){
+  .tlwrap{display:flex;align-items:flex-start}
+  .tl li::after{display:none}
+  .tg:nth-child(1){flex:2}.tg:nth-child(2){flex:4}
+  .tlwrap .yr{margin:0 0 16px;padding-left:0}
+  .tlwrap .tl{display:flex;padding:0}
+  .tl li{flex:1;margin:0;padding:24px 14px 0 0;border-top:4px solid var(--line)}
+  .tl li::before{left:0;top:-11px}
+  .tg:last-child .tl li:last-child{border-top-color:transparent}
+}
+/* news */
+.news{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:12px}
+.news li{display:grid;gap:6px 16px;grid-template-columns:1fr;background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+@media(min-width:640px){.news li{grid-template-columns:120px 1fr}}
+@media(max-width:639px){
+  .news li{grid-template-columns:auto 1fr;align-items:center;column-gap:10px}
+  .news li>div{display:contents}
+  .news li>div>.tag{grid-column:2;grid-row:1;margin:0;justify-self:start}
+  .news li>div>b,.news li>div>p,.news li>div>.del{grid-column:1/-1}
+  .news li>div>.del{justify-self:start}
+}
+.news time{font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.news .tag{display:inline-block;margin-right:8px;padding:0 10px;border-radius:999px;background:var(--tint-b);color:var(--blue);font-size:.85rem;font-weight:700}
+.news .tag.g{background:var(--tint-g);color:var(--green)}
+.news p{margin:4px 0 0;color:var(--muted);font-size:.95rem}
+
+/* pie */
+.piebox{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.pie{width:150px;height:150px;border-radius:50%;flex:none;box-shadow:0 0 0 4px var(--surface)}
+.legend{list-style:none;margin:0;padding:0;flex:1;min-width:160px;align-self:stretch;display:flex;flex-direction:column;justify-content:space-around}
+@media(min-width:480px){.piebox{flex-wrap:nowrap}}
+.legend li{display:flex;align-items:center;gap:8px;margin:0}
+.legend i{width:12px;height:12px;border-radius:3px;flex:none}
+.legend b{margin-left:auto}
+.pie{display:none}
+.donut{display:block;flex:none;width:170px;height:auto}
+.piebox{margin-top:20px;gap:24px}
+.legend{align-self:center;justify-content:flex-start}
+.legend li{padding:9px 2px;border-bottom:1px solid var(--line)}
+.legend li:last-child{border-bottom:0}
+.legend b{font-size:1.05rem}
+@media(max-width:479px){
+  .score .card{padding:22px 18px}
+  .piebox{flex-direction:column;align-items:center;justify-content:center;gap:14px;margin-top:26px}
+  .donut{width:100%;max-width:190px;margin:0 auto}
+  .legend{width:100%;max-width:300px;min-width:0;flex:none}
+}
+/* scoring */
+.score{display:grid;gap:18px}
+@media(min-width:760px){.score{grid-template-columns:1fr 1fr}}
+@media(orientation:landscape) and (max-height:500px) and (min-width:480px){
+  .score{grid-template-columns:1fr}
+  .piebox{justify-content:center;gap:36px}
+  .legend{flex:none;width:340px;min-width:0}
+}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px}
+.bar{margin:12px 0}
+.bar div.l{display:flex;justify-content:space-between;font-size:.95rem}
+.bar div.t{height:12px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:4px}
+.bar div.t i{display:block;height:100%;background:var(--green)}
+.card.s .bar div.t i{background:var(--blue)}
+
+/* form */
+.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.tab{padding:10px 18px;border-radius:999px;border:2px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:700;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.row{display:grid;gap:10px;margin-bottom:12px}
+.row.c2{grid-template-columns:1fr 1fr}
+.row.c3{grid-template-columns:1fr 1fr 1fr}
+label{display:block;font-size:.9rem;font-weight:700;margin-bottom:2px}
+input,select,textarea{width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+.entry{border:1px dashed var(--line);border-radius:14px;padding:12px;margin-bottom:12px}
+.entry h4{margin:0 0 8px;font-size:.95rem}
+.msg{min-height:1.6em;font-weight:700}
+.msg.err{color:var(--red)}.msg.ok{color:var(--green)}
+textarea{min-height:170px;resize:vertical}
+.hide{display:none}
+.small{color:var(--muted);font-size:.9rem}
+footer{background:var(--navy);color:#c9d2de;padding:28px 0;text-align:center;font-size:.95rem}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* admin */
+.admin-link{background:none;border:0;color:#c9d2de;font:inherit;font-size:.85rem;opacity:.7;cursor:pointer;text-decoration:underline;margin-left:14px}
+#admin textarea{min-height:90px}
+#admin h3{margin:0 0 12px}
+#admin .btns{margin-top:12px}
+.news .del{margin-top:8px;border:1px solid var(--line);background:none;color:var(--red);border-radius:999px;padding:2px 14px;font:inherit;font-size:.85rem;cursor:pointer}
+
+/* event card header: title row 1, small grade row 2, due box spans both on the right */
+.track{column-gap:14px}
+.thead{grid-column:1;grid-row:1;margin:0;align-self:end}
+.track .grade{grid-column:1;grid-row:2;margin:8px 0 0;padding:2px 14px;font-size:1rem;line-height:1.5;align-self:start;justify-self:start}
+.due{grid-column:2;grid-row:1/3;align-self:stretch;margin:0;display:flex;flex-direction:column;width:8rem;min-width:0}
+.due .dt{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center}
+
+/* equal due boxes */
+.due{height:5rem}
+@media(max-width:480px){.thead .art{width:40px;height:40px}.thead h3{font-size:1.15rem}.due{width:6.9rem}.due .dt{font-size:1rem;padding:4px 6px}}
+/* mobile: slightly looser line spacing in the two event cards */
+@media(max-width:639px){.track ul.info li{line-height:1.95;padding:12px 0}}
+/* mobile: shorter hero */
+@media(max-width:759px){
+  .hero{padding-top:40px}
+  .hero .wrap{gap:20px}
+  .hero .wrap>div:first-child{padding-bottom:21px!important}
+  .hero h1{font-size:clamp(2.8rem,12.6vw,4rem);line-height:1.14}
+  .hero p{margin:13px 0 20px;font-size:1.4rem!important}
+  .hero svg{max-width:330px!important}
+  .zebra{height:32px}
+}
+</style>
+</head>
+<body>
+<template id="body-tpl">
+
+<header class="hero">
+  <div class="wrap">
+    <div style="padding-bottom:28px">
+      <h1>綠燈亮起，<br><span style="color:#ffd84d">大湖GO GO！</span></h1>
+      <p style="font-size:clamp(1.15rem,4.4vw,1.55rem);font-weight:700;line-height:1.5">2026 大湖資訊競賽正式開打！</p>
+      <div class="btns">
+        <a class="btn main" href="#events" style="color:#0f1538">我要報名</a>
+        <a class="btn ghost" href="#schedule" style="border-color:#fff">看賽程</a>
+      </div>
+    </div>
+    <svg viewBox="0 0 360 222" style="max-width:420px;margin:0 auto;align-self:end" role="img" aria-label="像素方塊風格的小人舉著金色獎盃，旁邊有程式積木塔和亮起綠燈的紅綠燈">
+      <g shape-rendering="crispEdges">
+        <rect x="0" y="188" width="360" height="34" fill="#8a5a3a"/>
+        <rect x="0" y="188" width="360" height="10" fill="#4fbf6a"/>
+        <rect x="0" y="188" width="12" height="4" fill="#3fa85a"/>
+        <rect x="24" y="188" width="12" height="4" fill="#3fa85a"/>
+        <rect x="48" y="188" width="12" height="4" fill="#3fa85a"/>
+        <rect x="72" y="188" width="12" height="4" fill="#3fa85a"/>
+        <rect x="96" y="188" width="12" height="4" fill="#3fa85a"/>
+        <rect x="120" y="188" width="12" height="4" fill="#3fa85a"/>
+        <rect x="144" y="188" width="12" height="4" fill="#3fa85a"/>
+        <rect x="168" y="188" width="12" height="4" fill="#3fa85a"/>
+        <rect x="192" y="188" width="12" height="4" fill="#3fa85a"/>
+        <rect x="216" y="188" width="12" height="4" fill="#3fa85a"/>
+        <rect x="240" y="188" width="12" height="4" fill="#3fa85a"/>
+        <rect x="264" y="188" width="12" height="4" fill="#3fa85a"/>
+        <rect x="288" y="188" width="12" height="4" fill="#3fa85a"/>
+        <rect x="312" y="188" width="12" height="4" fill="#3fa85a"/>
+        <rect x="336" y="188" width="12" height="4" fill="#3fa85a"/>
+        <rect x="14" y="204" width="10" height="8" fill="#7a4c30"/>
+        <rect x="60" y="212" width="10" height="8" fill="#7a4c30"/>
+        <rect x="110" y="202" width="10" height="8" fill="#7a4c30"/>
+        <rect x="170" y="210" width="10" height="8" fill="#7a4c30"/>
+        <rect x="226" y="204" width="10" height="8" fill="#7a4c30"/>
+        <rect x="284" y="212" width="10" height="8" fill="#7a4c30"/>
+        <rect x="330" y="202" width="10" height="8" fill="#7a4c30"/>
+        <rect x="100" y="186" width="72" height="4" fill="#0f1538" opacity=".25"/>
+        <rect x="112" y="150" width="22" height="36" fill="#3b3f8f"/>
+        <rect x="138" y="150" width="22" height="36" fill="#3b3f8f"/>
+        <rect x="112" y="184" width="22" height="4" fill="#3b2a20"/>
+        <rect x="138" y="184" width="22" height="4" fill="#3b2a20"/>
+        <rect x="108" y="100" width="56" height="50" fill="#ff8a3d"/>
+        <rect x="126" y="116" width="20" height="14" fill="#ffd84d"/>
+        <rect x="90" y="100" width="18" height="46" fill="#ff8a3d"/>
+        <rect x="90" y="144" width="18" height="10" fill="#ffd9b0"/>
+        <rect x="164" y="62" width="18" height="46" fill="#ff8a3d"/>
+        <rect x="164" y="52" width="18" height="10" fill="#ffd9b0"/>
+        <rect x="112" y="54" width="48" height="46" fill="#ffd9b0"/>
+        <rect x="112" y="54" width="48" height="12" fill="#1d2430"/>
+        <rect x="110" y="44" width="52" height="14" fill="#e5484d"/>
+        <rect x="110" y="58" width="60" height="5" fill="#b8353a"/>
+        <rect x="122" y="78" width="10" height="10" fill="#fff"/>
+        <rect x="140" y="78" width="10" height="10" fill="#fff"/>
+        <rect x="126" y="80" width="6" height="8" fill="#1d2430"/>
+        <rect x="144" y="80" width="6" height="8" fill="#1d2430"/>
+        <rect x="130" y="92" width="12" height="3" fill="#b5654a"/>
+        <rect x="160" y="10" width="26" height="22" fill="#ffd84d"/>
+        <rect x="154" y="14" width="6" height="10" fill="#ffd84d"/>
+        <rect x="186" y="14" width="6" height="10" fill="#ffd84d"/>
+        <rect x="170" y="32" width="6" height="8" fill="#ffb21e"/>
+        <rect x="162" y="40" width="22" height="6" fill="#ffd84d"/>
+        <rect x="166" y="14" width="5" height="14" fill="#fff" opacity=".55"/>
+        <rect x="216" y="160" width="52" height="30" fill="#9966ff"/>
+        <rect x="224" y="155" width="14" height="5" fill="#9966ff"/>
+        <rect x="218" y="184" width="48" height="6" fill="#000" opacity=".12"/>
+        <rect x="216" y="130" width="52" height="30" fill="#4c97ff"/>
+        <rect x="224" y="125" width="14" height="5" fill="#4c97ff"/>
+        <rect x="218" y="154" width="48" height="6" fill="#000" opacity=".12"/>
+        <rect x="216" y="100" width="52" height="30" fill="#ffab19"/>
+        <rect x="224" y="95" width="14" height="5" fill="#ffab19"/>
+        <rect x="218" y="124" width="48" height="6" fill="#000" opacity=".12"/>
+        <text x="242" y="121" font-size="15" font-weight="900" fill="#fff" text-anchor="middle">GO</text>
+        <rect x="292" y="66" width="38" height="104" fill="#0f1538"/>
+        <rect x="302" y="170" width="12" height="18" fill="#0f1538"/>
+        <rect x="300" y="74" width="22" height="22" fill="#7a2a45"/>
+        <rect x="300" y="102" width="22" height="22" fill="#7a6a2a"/>
+        <rect x="294" y="126" width="34" height="34" fill="#39e58c" opacity=".3"/>
+        <rect x="300" y="132" width="22" height="22" fill="#39e58c"/>
+        <rect x="304" y="136" width="6" height="6" fill="#fff"/>
+        <rect x="30" y="40" width="8" height="8" fill="#ffd84d" opacity=".9"/>
+        <rect x="60" y="110" width="8" height="8" fill="#ffd84d" opacity=".9"/>
+        <rect x="250" y="60" width="8" height="8" fill="#ffd84d" opacity=".9"/>
+        <rect x="344" y="40" width="8" height="8" fill="#ffd84d" opacity=".9"/>
+        <rect x="190" y="70" width="8" height="8" fill="#ffd84d" opacity=".9"/>
+        <rect x="20" y="150" width="8" height="8" fill="#ffd84d" opacity=".9"/>
+      </g>
+    </svg>
+  </div>
+  <div class="zebra" aria-hidden="true"></div>
+</header>
+
+<main>
+
+<section id="news" style="background:var(--surface)"><div class="wrap">
+  <h2>最新消息</h2>
+  <ul class="news" id="newsList"></ul>
+  <div id="admin" class="card hide" style="margin-top:16px;background:var(--bg)"></div>
+</div></section>
+
+<section id="events"><div class="wrap">
+  <h2>競賽項目</h2>
+  <p class="lead">先看自己的年級，再選項目報名。</p>
+  <div class="tracks">
+    <article class="track">
+      <div class="top">
+        <div class="thead"><h3>交通安全數位海報</h3></div>
+        <div class="due"><span class="lb">收件截止</span><span class="dt">12/18(五)<small>16:00 前</small></span></div>
+      </div>
+      <span class="grade">三、四年級</span>
+      <ul class="info">
+        <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span><b>個人報名</b>，每班至少一位同學參賽</span></li>
+        <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h8l5 5v15H6z"/><path d="M14 2v5h5"/></svg><span>檔案 <b>10MB 以內</b>，格式不限：Word、PowerPoint、Canva、小畫家都可以</span></li>
+        <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg><span>海報上<b>嚴禁出現個人資訊</b></span></li>
+      </ul>
+      <a class="btn main js-form" data-form="poster" href="#">我要報名</a>
+    </article>
+    <article class="track s">
+      <div class="top">
+        <div class="thead"><h3>Scratch 大師挑戰賽</h3></div>
+        <div class="due"><span class="lb">第一階段收件</span><span class="dt">2/15 – 2/26</span></div>
+      </div>
+      <span class="grade">五、六年級</span>
+      <ul class="info">
+        <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3.5 3-5.5 7-5.5s7 2 7 5.5M16 14.5c3 0 6 1.5 6 4.5"/></svg><span><b>自由組隊</b>，每組 1 至 2 人</span></li>
+        <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h6a3 3 0 0 1 3 3v14a2 2 0 0 0-2-2H4z"/><path d="M20 4h-6a3 3 0 0 0-3 3v14a2 2 0 0 1 2-2h7z"/></svg><span><b>第一階段</b>：寒假自主學習，錄取 20 組晉級</span></li>
+        <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 21h8M12 16v5"/></svg><span><b>第二階段</b>：上機競賽，題目當天現場公布</span></li>
+        <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8"/></svg><span>獲獎選手代表學校參加<b>臺北市 Scratch 貓咪盃</b></span></li>
+      </ul>
+      <a class="btn main js-form" data-form="scratch" href="#">我要報名</a>
+    </article>
+  </div>
+</div></section>
+
+<section id="task" style="background:var(--navy);color:#fff"><div class="wrap">
+  <h2 style="color:#fff">寒假自主學習</h2>
+  <p style="font-size:1.5rem;font-weight:900;color:#ffd84d;margin:0 0 6px">《單車防禦駕駛遊戲》</p>
+  
+  <div class="taskgrid">
+    <svg viewBox="0 0 460 330" style="width:100%;height:auto;display:block" role="img" aria-label="十字路口俯視圖：大卡車右轉，內側出現紅色內輪差死角區；闖入的腳踏車顯示 Game Over，停在卡車後方的腳踏車獲得安全騎士">
+      <defs><clipPath id="cp"><rect width="460" height="330" rx="20"/></clipPath></defs>
+      <g clip-path="url(#cp)">
+        <rect width="460" height="330" fill="#3fae78"/>
+        <rect y="100" width="460" height="150" fill="#3a4256"/><rect x="250" width="90" height="330" fill="#3a4256"/>
+        <path d="M0 175H250M340 175H460M295 0V100M295 250V330" stroke="#ffd84d" stroke-width="3" stroke-dasharray="12 9"/>
+        <path d="M0 222H250" stroke="#fff" stroke-width="2" stroke-dasharray="6 8" opacity=".6"/>
+        <path d="M90 216A40 40 0 0 0 170 216Z" fill="#ff3b4a" opacity=".6"/>
+        <rect x="96" y="182" width="104" height="34" rx="5" fill="#fff"/><rect x="200" y="186" width="36" height="30" rx="6" fill="#ffd84d"/><rect x="224" y="190" width="8" height="12" fill="#9fd6ff"/>
+        <circle cx="120" cy="216" r="7" fill="#0f1538"/><circle cx="150" cy="216" r="7" fill="#0f1538"/><circle cx="214" cy="216" r="7" fill="#0f1538"/>
+        <path d="M238 199C262 199 272 214 272 250V298" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="8 7"/>
+        <path d="M264 296L272 312L280 296Z" fill="#fff"/>
+        <g transform="translate(118 232)" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="0" cy="14" r="7"/><circle cx="24" cy="14" r="7"/><path d="M0 14l9-12h10l5 12M9 2l-2-5"/><circle cx="13" cy="-10" r="5" fill="#ffd9b0" stroke="none"/><path d="M10 1L13 -6" stroke="#ffd84d" stroke-width="5"/></g><g transform="translate(30 232)" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="0" cy="14" r="7"/><circle cx="24" cy="14" r="7"/><path d="M0 14l9-12h10l5 12M9 2l-2-5"/><circle cx="13" cy="-10" r="5" fill="#ffd9b0" stroke="none"/><path d="M10 1L13 -6" stroke="#ffd84d" stroke-width="5"/></g>
+        <rect x="8" y="270" width="84" height="28" rx="14" fill="#39e58c"/><text x="50" y="289" font-size="14" font-weight="900" fill="#0f1538" text-anchor="middle">安全騎士</text>
+        <rect x="124" y="270" width="92" height="28" rx="14" fill="#ff3b4a"/><text x="170" y="289" font-size="14" font-weight="900" fill="#fff" text-anchor="middle">Game Over</text>
+        <rect x="44" y="16" width="84" height="26" rx="13" fill="#0f1538" opacity=".85"/><text x="86" y="34" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">十字路口</text>
+        <circle cx="26" cy="29" r="12" fill="#0f1538" stroke="#ffd84d" stroke-width="2"/><text x="26" y="34" font-size="14" font-weight="900" fill="#fff" text-anchor="middle">1</text><circle cx="148" cy="199" r="12" fill="#0f1538" stroke="#ffd84d" stroke-width="2"/><text x="148" y="204" font-size="14" font-weight="900" fill="#fff" text-anchor="middle">2</text><circle cx="180" cy="240" r="12" fill="#0f1538" stroke="#ffd84d" stroke-width="2"/><text x="180" y="245" font-size="14" font-weight="900" fill="#fff" text-anchor="middle">3</text><circle cx="108" cy="284" r="12" fill="#0f1538" stroke="#ffd84d" stroke-width="2"/><text x="108" y="289" font-size="14" font-weight="900" fill="#fff" text-anchor="middle">4</text>
+      </g>
+    </svg>
+    <ol class="task">
+      <li><b>舞台背景</b><span>十字路口。</span></li>
+      <li><b>角色 A（大卡車）</b><span>設定轉彎時會出現半圓形的「內輪差紅色死角區」。</span></li>
+      <li><b>角色 B（自行車騎士）</b><span>由玩家控制。</span></li>
+      <li class="logic"><b>程式邏輯</b><span>當自行車騎士轉彎碰到「紅色死角區」時發出警告音並顯示「Game Over」；若停在大卡車後方等待，則獲得「安全騎士」勳章。</span></li>
+    </ol>
+  </div>
+</div></section>
+
+<section id="schedule" style="background:var(--surface)"><div class="wrap">
+  <h2>競賽賽程</h2>
+  <p class="lead">綠點是交通安全數位海報，藍點是 Scratch 大師挑戰賽。</p>
+  <div class="tlwrap">
+    <div class="tg">
+      <div class="yr">115 年</div>
+      <ol class="tl">
+        <li class="p"><b>12/8(二) 至 12/18(五) 16:00</b><span>海報作品繳交</span></li>
+        <li class="p"><b>12/24(四)</b><span>海報結果公布</span></li>
+      </ol>
+    </div>
+    <div class="tg">
+      <div class="yr">116 年</div>
+      <ol class="tl">
+        <li class="s"><b>2/15(一) 至 2/26(五) 12:00</b><span>Scratch 第一階段徵件（線上收件）</span></li>
+        <li class="s"><b>3/2(二)</b><span>公布 20 組晉級名單</span></li>
+        <li class="s"><b>3/15(一)</b><span>Scratch 第二階段上機競賽，題目當天現場公布</span></li>
+        <li class="s"><b>3/16(二)</b><span>Scratch 結果公布</span></li>
+      </ol>
+    </div>
+  </div>
+</div></section>
+
+<section id="rules"><div class="wrap">
+  <h2>評分標準</h2>
+  <p class="lead">先知道老師看什麼，作品就知道往哪裡用力。</p>
+  <div class="score">
+    <div class="card">
+      <h3>交通安全數位海報</h3>
+      <div class="piebox"><div class="pie" role="img" aria-label="評分比例：內容50%、版面安排設計25%、色彩美觀15%、創意10%" style="background:conic-gradient(#2f6fdb 0% 50%, #1f9d62 50% 75%, #ffc93c 75% 90%, #8a5cf0 90% 100%)"></div><svg class="donut" viewBox="0 0 100 100" role="img" aria-label="評分比例：內容50%、版面安排設計25%、色彩美觀15%、創意10%"><circle cx="50" cy="50" r="39" fill="none" stroke="#2f6fdb" stroke-width="22" pathLength="100" stroke-dasharray="48.8 51.2" stroke-dashoffset="-0.6" transform="rotate(-90 50 50)"/><circle cx="50" cy="50" r="39" fill="none" stroke="#1f9d62" stroke-width="22" pathLength="100" stroke-dasharray="23.8 76.2" stroke-dashoffset="-50.6" transform="rotate(-90 50 50)"/><circle cx="50" cy="50" r="39" fill="none" stroke="#ffc93c" stroke-width="22" pathLength="100" stroke-dasharray="13.8 86.2" stroke-dashoffset="-75.6" transform="rotate(-90 50 50)"/><circle cx="50" cy="50" r="39" fill="none" stroke="#8a5cf0" stroke-width="22" pathLength="100" stroke-dasharray="8.8 91.2" stroke-dashoffset="-90.6" transform="rotate(-90 50 50)"/><text x="50" y="44" text-anchor="middle" font-size="7.5" font-weight="700" style="fill:var(--muted)">滿分</text><text x="50" y="60" text-anchor="middle" font-size="17" font-weight="900" style="fill:var(--ink)">100</text></svg><ul class="legend"><li><i style="background:#2f6fdb"></i>內容<b style="color:#2f6fdb">50%</b></li><li><i style="background:#1f9d62"></i>版面安排設計<b style="color:#1f9d62">25%</b></li><li><i style="background:#ffc93c"></i>色彩美觀<b style="color:#b8860b">15%</b></li><li><i style="background:#8a5cf0"></i>創意<b style="color:#8a5cf0">10%</b></li></ul></div></div>
+    <div class="card s">
+      <h3>Scratch 大師挑戰賽</h3>
+      <div class="piebox"><div class="pie" role="img" aria-label="評分比例：功能完整性40%、主題創意30%、美術設計15%、音效與互動體驗15%" style="background:conic-gradient(#2f6fdb 0% 40%, #1f9d62 40% 70%, #ffc93c 70% 85%, #8a5cf0 85% 100%)"></div><svg class="donut" viewBox="0 0 100 100" role="img" aria-label="評分比例：功能完整性40%、主題創意30%、美術設計15%、音效與互動體驗15%"><circle cx="50" cy="50" r="39" fill="none" stroke="#2f6fdb" stroke-width="22" pathLength="100" stroke-dasharray="38.8 61.2" stroke-dashoffset="-0.6" transform="rotate(-90 50 50)"/><circle cx="50" cy="50" r="39" fill="none" stroke="#1f9d62" stroke-width="22" pathLength="100" stroke-dasharray="28.8 71.2" stroke-dashoffset="-40.6" transform="rotate(-90 50 50)"/><circle cx="50" cy="50" r="39" fill="none" stroke="#ffc93c" stroke-width="22" pathLength="100" stroke-dasharray="13.8 86.2" stroke-dashoffset="-70.6" transform="rotate(-90 50 50)"/><circle cx="50" cy="50" r="39" fill="none" stroke="#8a5cf0" stroke-width="22" pathLength="100" stroke-dasharray="13.8 86.2" stroke-dashoffset="-85.6" transform="rotate(-90 50 50)"/><text x="50" y="44" text-anchor="middle" font-size="7.5" font-weight="700" style="fill:var(--muted)">滿分</text><text x="50" y="60" text-anchor="middle" font-size="17" font-weight="900" style="fill:var(--ink)">100</text></svg><ul class="legend"><li><i style="background:#2f6fdb"></i>功能完整性<b style="color:#2f6fdb">40%</b></li><li><i style="background:#1f9d62"></i>主題創意<b style="color:#1f9d62">30%</b></li><li><i style="background:#ffc93c"></i>美術設計<b style="color:#b8860b">15%</b></li><li><i style="background:#8a5cf0"></i>音效與互動體驗<b style="color:#8a5cf0">15%</b></li></ul></div>
+    </div>
+  </div>
+  <p style="margin-top:20px"><b>獎勵：</b>各項目擇優頒發獎狀與禮券，得獎作品會在圖書館展出，全校師生都能欣賞。</p>
+</div></section>
+
+</main>
+
+<footer><div class="wrap">主辦單位｜大湖國民小學教務處資訊組 <button class="admin-link" id="adminBtn" type="button">管理員</button></div></footer>
+
+</template>
+<div id="root"></div>
+<script type="application/json" id="state">{"news": [{"id": "n2", "date": "2026-10-30", "tag": "報名", "title": "交通安全數位海報：12/8(二)開放線上報名", "text": "報名表單準備好後，會在這裡公告，並開啟「我要報名」按鈕。"}, {"id": "n1", "date": "2026-10-30", "tag": "公告", "title": "資訊競賽網站上線", "text": "賽程、評分標準和寒假自主學習題目都已公布，歡迎同學和家長查看。"}]}</script>
+<script id="app">(function(){
+  var HEAD_FIXED="<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n<title>綠燈亮起，大湖GO GO！｜大湖資訊競賽 115 學年度</title>\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap\">";
+  var FORMS={poster:"",scratch:""};
+  var $=function(id){return document.getElementById(id)};
+  var state=JSON.parse($("state").textContent);
+  var isAdmin=false,ns=null;
+
+  $("root").appendChild($("body-tpl").content.cloneNode(true));
+
+  document.querySelectorAll(".js-form").forEach(function(a){
+    var u=FORMS[a.getAttribute("data-form")];
+    if(u){a.href=u;a.target="_blank";a.rel="noopener"}
+    else{a.removeAttribute("href");a.setAttribute("aria-disabled","true");a.style.opacity=".55";a.style.cursor="default";a.textContent+="（準備中）"}
+  });
+
+  function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
+
+  function renderNews(){
+    var ul=$("newsList");ul.textContent="";
+    var items=state.news.slice().sort(function(a,b){return a.date<b.date?1:(a.date>b.date?-1:0)});
+    if(!items.length){ul.appendChild(el("li",null,"目前沒有消息。"));return}
+    items.forEach(function(n){
+      var li=el("li");
+      var t=el("time",null,n.date.replace(/-/g,"/"));t.setAttribute("datetime",n.date);
+      var d=el("div");
+      d.appendChild(el("span","tag"+(n.tag==="報名"?" g":""),n.tag));
+      d.appendChild(el("b",null,n.title));
+      if(n.text)d.appendChild(el("p",null,n.text));
+      if(isAdmin){
+        var del=el("button","del","刪除");del.type="button";
+        var timer=null;
+        del.onclick=function(){
+          if(del.getAttribute("data-sure")!=="1"){
+            del.setAttribute("data-sure","1");del.textContent="再按一次確定刪除";
+            timer=setTimeout(function(){del.removeAttribute("data-sure");del.textContent="刪除"},4000);
+          }else{
+            clearTimeout(timer);
+            save({news:state.news.filter(function(x){return x.id!==n.id})});
+          }
+        };
+        d.appendChild(del);
+      }
+      li.appendChild(t);li.appendChild(d);ul.appendChild(li);
+    });
+  }
+  renderNews();
+
+  function buildDoc(st){
+    var json=JSON.stringify(st).replace(/</g,"\\u003c");
+    return "<!doctype html>\n<html lang=\"zh-Hant\"><head>"+HEAD_FIXED+"<style id=\"own-css\">"+$("own-css").textContent+"</style></head><body>"
+      +"<template id=\"body-tpl\">"+$("body-tpl").innerHTML+"</template><div id=\"root\"></div>"
+      +"<script type=\"application/json\" id=\"state\">"+json+"<\/script>"
+      +"<script id=\"app\">"+$("app").textContent+"<\/script></body></html>";
+  }
+
+  function setMsg(t,err){var m=$("a-msg");if(!m)return;m.textContent=t;m.className="msg"+(err?" err":"")}
+
+  async function save(newState){
+    setMsg("儲存中…");
+    try{sessionStorage.setItem("dahuAdmin","1")}catch(e){}
+    try{
+      await ns.publish(buildDoc(newState));
+      setMsg("已儲存，頁面即將重新載入…");
+    }catch(e){
+      var c=e&&e.code;
+      if(c==="conflict")return;
+      var map={not_writer:"這個帳號沒有編輯權限。",not_granted:"這個帳號沒有編輯權限。",too_large:"內容太多，無法儲存。",rate_limited:"操作太頻繁，請稍後再試。"};
+      setMsg(map[c]||"儲存失敗，請稍後再試。",true);
+    }
+  }
+
+  function today(){var d=new Date();var p=function(n){return String(n).padStart(2,"0")};return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate())}
+
+  function showForm(){
+    var box=$("admin");
+    box.innerHTML='<h3>管理員後台：新增公告</h3>'
+     +'<div class="row c2"><div><label for="a-date">日期</label><input id="a-date" type="date"></div>'
+     +'<div><label for="a-tag">分類</label><select id="a-tag"><option>公告</option><option>報名</option></select></div></div>'
+     +'<div class="row"><div><label for="a-title">標題</label><input id="a-title" maxlength="60" autocomplete="off"></div></div>'
+     +'<div class="row"><div><label for="a-text">內容（可不填）</label><textarea id="a-text" maxlength="300"></textarea></div></div>'
+     +'<p class="msg" id="a-msg" role="status"></p>'
+     +'<div class="btns"><button class="btn main" id="a-add" type="button">新增公告</button>'
+     +'<button class="btn" id="a-close" type="button" style="border-color:var(--line);color:var(--ink)">關閉後台</button></div>'
+     +'<p class="small" style="margin-bottom:0">要刪除舊公告，請按公告卡片上的「刪除」。</p>';
+    $("a-date").value=today();
+    $("a-add").onclick=function(){
+      var date=$("a-date").value,title=$("a-title").value.trim(),text=$("a-text").value.trim();
+      if(!date)return setMsg("請選擇日期。",true);
+      if(!title)return setMsg("請填寫標題。",true);
+      var item={id:Date.now().toString(36),date:date,tag:$("a-tag").value,title:title,text:text};
+      save({news:[item].concat(state.news)});
+    };
+    $("a-close").onclick=function(){isAdmin=false;box.classList.add("hide");renderNews()};
+  }
+
+  async function openAdmin(){
+    var box=$("admin");box.classList.remove("hide");
+    box.textContent="檢查權限中…";
+    box.scrollIntoView({block:"center"});
+    var denied="這個帳號沒有管理權限。請用管理員帳號登入後，再開啟這個頁面。";
+    try{
+      if(typeof claude==="undefined")throw 0;
+      var user=await claude.use("user");
+      var can=user?await user.canEdit():false;
+      if(!can){box.textContent=denied;return}
+      ns=await claude.use("artifact");
+      if(!ns){box.textContent=denied;return}
+      isAdmin=true;renderNews();showForm();
+    }catch(e){box.textContent=denied}
+  }
+  $("adminBtn").onclick=openAdmin;
+  try{if(sessionStorage.getItem("dahuAdmin")==="1"){sessionStorage.removeItem("dahuAdmin");openAdmin()}}catch(e){}
+})();</script>
+</body>
+</html>
